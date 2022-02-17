@@ -1,0 +1,37 @@
+{
+  "name": "geochat.io",
+  "version": "1.0.0",
+  "description": "Instant Messaging Based on Location",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node --presets @babel/preset-env ./server.js",
+    "dev": "nodemon --exec babel-node --presets @babel/preset-env"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philimon-reset/GeoChat.io.git"
+  },
+  "keywords": [
+    "WebSockets",
+    "Geolocation"
+  ],
+  "author": "Hizkyas T. Philimon D.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/philimon-reset/GeoChat.io/issues"
+  },
+  "homepage": "https://github.com/philimon-reset/GeoChat.io#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.3",
+    "@babel/core": "^7.17.4",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/register": "^7.17.0",
+    "nodemon": "^2.0.15"
+  }
+}
