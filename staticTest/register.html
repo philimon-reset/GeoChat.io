@@ -10,13 +10,17 @@
 </head>
 <body>
     <div id="container">
-        <form action="/login" method="post" target="_self">
+        <form action="/signup" method="post" target="_self">
+            <label for="usrName"> User Name </label><br>
+            <input type="text" id="usrName" name="usrName"><br>
             <label for="email"> Email </label><br>
             <input type="text" id="email" name="email"><br>
             <label for="pass"> Password </label><br>
             <input type="password" name="pass" id="pass"><br>
             <input type="submit" value="register">
         </form>
+        <br><br>
+        <a href="/login">Login</a>
     </div>
 </body>
 </html>

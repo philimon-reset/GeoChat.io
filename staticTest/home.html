@@ -63,22 +63,24 @@
   <body>
     <ul id="messages"></ul>
     <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
+      <input id="input" autocomplete="off" /><button>Send</button
+      ><button id="logout"><a href="/logout">logout</a></button>
     </form>
     <script>
-        var sock = io();
-  
-        var sendForm = document.getElementById('form');
-        var input = document.getElementById('input');
-  
-        sendForm.addEventListener("submit", function (event) {
-          event.preventDefault();
-  
-          if (input.value) {
-            sock.emit("chat message", input.value);
-            input.value = "";
-          }
-        });
-      </script>  
+      var sock = io();
+
+      var sendForm = document.getElementById("form");
+      var input = document.getElementById("input");
+      var logout = document.getElementById("logout");
+
+      sendForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (input.value) {
+          sock.emit("chat message", input.value);
+          input.value = "";
+        }
+      });
+    </script>
   </body>
 </html>
