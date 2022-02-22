@@ -1,10 +1,10 @@
 import {React, useState} from "react";
-// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-// import { Paper } from "@material-ui/core";
-// import { TextInput } from '../components/Input';
-// import { MessageLeft, MessageRight } from "../components/Message";
-// import Dashboard from '../components/Dashboard'
-// import { io } from "socket.io-client";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { Paper } from "@material-ui/core";
+import { TextInput } from '../components/Input';
+import { MessageLeft, MessageRight } from "../components/Message";
+import Dashboard from '../components/Dashboard'
+import { io } from "socket.io-client";
 
 function Home() {
   // let sock = io();
@@ -24,7 +24,7 @@ function Home() {
 
   return (
     <div>
-        {/* <Dashboard /> */}
+    <Dashboard />
     <ul id="messages"></ul>
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
