@@ -89,7 +89,7 @@ app.post("/login", async (req, res) => {
     // console.log(user);
     if (UserStore.verifyUser(user, req.body.pass)) {
       req.session.usrId = usrStorage.fromObjectId(user._id);
-      return res.redirect('/home');
+      return res.json({ 'success': true })
     } else{
       throw new Error("Login error");
     }
@@ -101,6 +101,7 @@ app.post("/login", async (req, res) => {
 
 app.post("/signup", async (req, res) => {
   const { email, usrName, pass }  = req.body;
+  console.log('hello')
 
   try {
     const result = await usrStorage.newUser(usrName, email, pass);
