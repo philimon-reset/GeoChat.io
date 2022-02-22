@@ -4,6 +4,7 @@ import session from "express-session";
 import sessionHandler from "express-sessions";
 import bodyParser from "body-parser";
 import { createServer } from "http";
+import cors from 'cors';
 
 // sock imports
 import { Server } from "socket.io";
@@ -16,7 +17,7 @@ import Redis from "ioredis";
 import UserStore from "./Engines/StorageEngine/UserStore";
 
 // error import
-import { usrRegisterError } from "./Engines/errors";
+import { usrRegisterError, loginError } from "./Engines/errors";
 
 // ==================================================================================
 
@@ -41,7 +42,13 @@ const usrStorage = new UserStore();
 // Middleware
 app.use(express.json());
 
+app.use(express.static('./my-app/build'));
+
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cors({
+  origin: 'http://localhost:8001'
+}))
 
 app.use(
   session({
@@ -59,43 +66,52 @@ app.use(
   })
 );
 
+
 // Routes
-app.get("/", (req, res) => {
+app.get("/isIn", (req, res) => {
+  response = { status: 0 }
   if (req.session.usrId) {
-    return res.redirect("/home");
+    res.status(200);
+    response.status = 1;
+  } else {
+    res.status(400);
   }
-  res.sendFile(__dirname + "/staticTest/register.html");
-});
-
-app.get("/home", (req, res) => {
-  if (!req.session.usrId) {
-    return res.redirect("/");
-  }
-  res.sendFile(__dirname + "/staticTest/home.html");
-});
-
-app.get('/login', (req, res) => {
-  res.sendFile(__dirname + '/staticTest/login.html');
-});
+  res.json(response).end();
+})
 
 app.get('/logout', (req, res) => {
-  req.session.destroy();
-  return res.redirect('/login');
+  try{
+    req.session.destroy();
+    res.status(200).end();
+  } catch(err) {
+    res.status(400).end();
+  }
 });
 
 app.post("/login", async (req, res) => {
+  let response = {};
+  const { usrName, pass } = req.body;
+
   try {
-    const user = await usrStorage.findUniqUser({ userName: req.body.usrName });
-    // console.log(user);
-    if (UserStore.verifyUser(user, req.body.pass)) {
-      req.session.usrId = usrStorage.fromObjectId(user._id);
-      return res.json({ 'success': true })
-    } else{
-      throw new Error("Login error");
+
+    const user = await usrStorage.findUniqUser({ userName: usrName });
+
+    if (!user) {
+      throw new loginError("User Not found", "USERNAME");
     }
+    if (!UserStore.verifyUser(user, pass)) {
+      throw new loginError("Incorrect Password", "PASS");
+    }
+    req.session.usrId = usrStorage.fromObjectId(user._id);
+    response.usrName = usrName;
+    res.status(201);
+
   } catch (err) {
-    console.log(err);
-    return res.redirect('/login');
+    res.status(400);
+    response.ErrMessage = err.message;
+    response.ErrorCode = err instanceof loginError ? err.code : 'MISC';
+  } finally {
+    res.json(response).end();
   }
 });
 
@@ -103,24 +119,19 @@ app.post("/signup", async (req, res) => {
   const { email, usrName, pass }  = req.body;
   console.log('hello')
 
+  let response ={};
+
   try {
     const result = await usrStorage.newUser(usrName, email, pass);
-    // console.log(result);
     req.session.usrId = usrStorage.fromObjectId(result.insertedId);
-    return res.redirect('/home');
+    response.usrName = usrName;
+    res.status(201);
   } catch(err) {
-    // detailed error handling, probably useful for frontend
-    if (err instanceof usrRegisterError) {
-      if (err.code == 'USERNAME') {
-        console.log(err);
-      }
-      if (err.code == 'EMAIL') {
-        console.log(err);
-      }
-    } else {
-      console.log(err);
-    }
-    return res.redirect('/');
+    res.status(400);
+    response.ErrMessage = err.message;
+    response.ErrorCode = err instanceof usrRegisterError ? err.code : 'MISC';
+  } finally {
+    res.json(response).end();
   }
 });
 
@@ -143,3 +154,21 @@ io.on("connection", (socket) => {
     console.log(error);
   }
 })();
+
+
+// =========================== GraveYard ================
+
+// app.get("/", (req, res) => {
+//   if (req.session.usrId) {
+//     return res.redirect("/home");
+//   }
+//   res.sendFile(__dirname + "/my-app/build/register.html");
+//   // res.sendFile(__dirname + "/staticTest/register.html");
+// });
+
+// app.get("/home", (req, res) => {
+//   if (!req.session.usrId) {
+//     return res.redirect("/");
+//   }
+//   res.sendFile(__dirname + "/my-app/build/index.html");
+// });

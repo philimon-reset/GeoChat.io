@@ -10,6 +10,7 @@ export default class UserStore extends BasicStore {
     await super.connect();
     this.usrCollection = this.db.collection('users')
   }
+
   async newUser(usrName, usrEmail, usrPass) {
     if (await this.findUniqUser({userName : usrName})) {
       throw new usrRegisterError('Username Taken', 'USERNAME');
