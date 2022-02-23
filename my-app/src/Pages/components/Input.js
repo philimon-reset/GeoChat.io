@@ -26,10 +26,15 @@ const useStyles = makeStyles((theme) =>
 export const TextInput = (props) => {
     const [textValue, setTextValue] = useState('')
 
+    const onSubmit = (event) => {
+      event.preventDefault();
+      props.onClick(textValue)
+    };
+
     const classes = useStyles();
     return (
         <>
-            <form className={classes.wrapForm}>
+            <form target = '_self' className={classes.wrapForm} onSubmit={onSubmit}>
             <TextField
                 id="standard-text"
                 label="Input Message"
@@ -37,7 +42,7 @@ export const TextInput = (props) => {
                 onChange={e => setTextValue(e.target.value)}
                 //margin="normal"
             />
-            <Button variant="contained" color="primary" className={classes.button} onClick={() => props.onClick(textValue)}>
+            <Button variant="contained" color="primary" className={classes.button} onClick={() => props.onClick(textValue)} >
                 <SendIcon />
             </Button>
             </form>
