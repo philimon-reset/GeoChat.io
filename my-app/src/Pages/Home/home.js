@@ -24,7 +24,10 @@ export default function Home(props) {
 
   return (
     <div>
+      {props.usrName &&
       <p>{props.usrName}</p>
+      }
+      <p>Hello</p>
     {/* <Dashboard />
     <ul id="messages"></ul>
     <form id="form" action="">

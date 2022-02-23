@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Home from '../Home/home'
 
@@ -30,9 +30,7 @@ export function Register() {
     }
   }
   if (isIn) {
-    return (
-      <Home usrName = { usrName }/>
-    )
+    <Redirect to="/home"/>
   }
   else {
     let error;
