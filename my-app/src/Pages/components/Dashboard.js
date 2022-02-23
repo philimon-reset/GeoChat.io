@@ -1,6 +1,10 @@
 import React from "react";
+
+// Style Imports
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
+
+// File Imports
 import { TextInput } from "./Input";
 import { MessageLeft, MessageRight } from "./Message";
 
@@ -51,13 +55,13 @@ export default function Dashboard() {
         <Paper id="style-1" className={classes.messagesBody}>
           <MessageLeft
             message="あめんぼあかいなあいうえお"
-            timestamp="MM/DD 00:00"
+            timestamp= '0'
             photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
             displayName=""
             avatarDisp={true}
           />
           <MessageLeft
-            message="xxxxxhttps://yahoo.co.jp xxxxxxxxxあめんぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさいすせそ"
+            message="xxxxxhttps://yahoo.co.jp xxxxxxxxxあめんぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさいすせそ"
             timestamp="MM/DD 00:00"
             photoURL=""
             displayName="テスト"
