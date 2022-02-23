@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 export default function Dashboard() {
-  function handleClick(i) {
-    console.log('j');
+  function handleSubmit(i) {
+    console.log(i, 'helloaa');
   }
   const classes = useStyles();
   return (
@@ -78,7 +78,7 @@ export default function Dashboard() {
             avatarDisp={false}
           />
         </Paper>
-        <TextInput onClick={(i) => handleClick(i)}/>
+        <TextInput onClick={(i) => handleSubmit(i)}/>
       </Paper>
     </div>
   );
