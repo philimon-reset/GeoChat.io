@@ -96,19 +96,15 @@ app.post("/login", async (req, res) => {
 
     const user = await usrStorage.findUniqUser({ userName: usrName });
 
-    if (!user) {
-      throw new loginError("User Not found", "USERNAME");
+    if (!user || !UserStore.verifyUser(user.pass, pass)) {
+      throw new loginError("login Error", "LOGINERR");
     }
-    if (!UserStore.verifyUser(user.pass, pass)) {
-      throw new loginError("Incorrect Password", "PASS");
-    }
+
     req.session.usrId = usrStorage.fromObjectId(user._id);
-    response.usrName = usrName;
-    res.status(201);
+    res.status(200);
 
   } catch (err) {
     res.status(400);
-    response.ErrMessage = err.message;
     response.ErrorCode = err instanceof loginError ? err.code : 'MISC';
   } finally {
     res.json(response).end();
@@ -123,11 +119,9 @@ app.post("/signup", async (req, res) => {
   try {
     const result = await usrStorage.newUser(usrName, email, pass);
     req.session.usrId = usrStorage.fromObjectId(result.insertedId);
-    response.usrName = usrName;
     res.status(201);
   } catch(err) {
     res.status(400);
-    response.ErrMessage = err.message;
     response.ErrorCode = err instanceof usrRegisterError ? err.code : 'MISC';
   } finally {
     res.json(response).end();
