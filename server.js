@@ -99,7 +99,7 @@ app.post("/login", async (req, res) => {
     if (!user) {
       throw new loginError("User Not found", "USERNAME");
     }
-    if (!UserStore.verifyUser(user, pass)) {
+    if (!UserStore.verifyUser(user.pass, pass)) {
       throw new loginError("Incorrect Password", "PASS");
     }
     req.session.usrId = usrStorage.fromObjectId(user._id);
@@ -117,7 +117,6 @@ app.post("/login", async (req, res) => {
 
 app.post("/signup", async (req, res) => {
   const { email, usrName, pass }  = req.body;
-  console.log('hello')
 
   let response ={};
 

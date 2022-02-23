@@ -39,7 +39,7 @@ export default class UserStore extends BasicStore {
     return this.usrCollection.find(filter);
   }
 
-  static async verifyUser(userObj, userPass) {
-    return hash(userPass) === userObj.pass;
+  static verifyUser(actualPass, reqPass) {
+    return hash(reqPass) === actualPass;
   }
 }
