@@ -6,7 +6,7 @@ import { MessageLeft, MessageRight } from "../components/Message";
 import Dashboard from '../components/Dashboard'
 import { io } from "socket.io-client";
 
-function Home() {
+export default function Home(props) {
   // let sock = io();
 
   // let sendForm = document.getElementById("form");
@@ -24,14 +24,13 @@ function Home() {
 
   return (
     <div>
-    <Dashboard />
+      <p>{props.usrName}</p>
+    {/* <Dashboard />
     <ul id="messages"></ul>
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
       <button id="logout"><a href="/logout">logout</a></button>
-    </form>
+    </form> */}
   </div>
   );
 }
-
-export default Home;
