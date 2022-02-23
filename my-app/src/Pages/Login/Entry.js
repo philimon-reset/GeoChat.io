@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import Home from '../Home/home'
 
 async function RegisterUser(credentials) {
   return axios.post('/signup', credentials);
@@ -25,12 +24,14 @@ export function Register() {
       setIn(true)
       setCode(null)
     } catch(err) {
-      console.log(err.response.data);
+      console.log(err);
       setCode(err.response.data.ErrorCode)
     }
   }
   if (isIn) {
-    <Redirect to="/home"/>
+    return (
+      <Navigate to="/home" />
+    );
   }
   else {
     let error;

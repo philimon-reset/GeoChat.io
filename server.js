@@ -69,14 +69,11 @@ app.use(
 
 // Routes
 app.get("/isIn", (req, res) => {
-  response = { status: 0 }
   if (req.session.usrId) {
-    res.status(200);
-    response.status = 1;
+    res.status(200).end();
   } else {
-    res.status(400);
+    res.status(400).end();
   }
-  res.json(response).end();
 })
 
 app.get('/logout', (req, res) => {
