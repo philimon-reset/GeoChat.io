@@ -28,7 +28,7 @@ const httpServer = HttpServer(app);
 const io = new SocketServer(httpServer);
 
 // Routes
-app.use("/api", router);
+app.use(router);
 
 // websock handlers
 io.on("connection", (socket) => {

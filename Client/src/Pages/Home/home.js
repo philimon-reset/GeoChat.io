@@ -9,15 +9,6 @@ import Dashboard from '../components/Dashboard'
 import { io } from "socket.io-client";
 
 export default function Home(props) {
-
-  const [loggedIn, setIn] = useState(false);
-
-  useEffect(() => {
-    axios.get('/isIn').then(
-      setIn(true)
-    ).catch();
-  }, [])
-
   // let sock = io();
 
   // let sendForm = document.getElementById("form");
@@ -32,21 +23,15 @@ export default function Home(props) {
   //     input.value = "";
   //   }
   // });
-  if (loggedIn) {
-    return (
-      <div>
-        <p>Hello</p>
-      {/* <Dashboard />
-      <ul id="messages"></ul>
-      <form id="form" action="">
-        <input id="input" autocomplete="off" /><button>Send</button>
-        <button id="logout"><a href="/logout">logout</a></button>
-      </form> */}
+  return (
+    <div>
+      <p>Hello</p>
+    {/* <Dashboard />
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+      <button id="logout"><a href="/logout">logout</a></button>
+    </form> */}
     </div>
-    );
-  } else {
-    return(
-      <Navigate to={"/login"} />
-    );   
-  }
+  );
 }

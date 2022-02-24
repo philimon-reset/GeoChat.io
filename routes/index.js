@@ -26,7 +26,7 @@ const redisClient = new Redis();
 router.use(express.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(cors({
-  origin: 'http://localhost:3000'
+  origin: 'http://127.0.0.1:3000'
 }));
 router.use(
   session({
