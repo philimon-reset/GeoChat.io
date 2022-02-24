@@ -1,129 +1,34 @@
 // server imports
 import express from "express";
-import session from "express-session";
-import sessionHandler from "express-sessions";
-import bodyParser from "body-parser";
-import { createServer } from "http";
-import cors from 'cors';
+import { createServer as HttpServer} from "http";
 
-// sock imports
-import { Server } from "socket.io";
+// socket imports
+import { Server as SocketServer } from "socket.io";
 
 // env
 import { env } from "process";
 
 // storage imports
-import Redis from "ioredis";
-import UserStore from "./Engines/StorageEngine/UserStore";
+import usrStorage from "./Engines/StorageEngine/UserStore";
 
-// error import
-import { usrRegisterError, loginError } from "./Engines/errors";
+// router import
+import router from "./routes";
 
 // ==================================================================================
 
 const PORT = env.chatAppPort || 8000;
-const SECRET = env.chatAppSecret || "IHAVENOSECRETS";
 
 // Express APP
 const app = express();
 
 // http server
-const httpServer = createServer(app);
+const httpServer = HttpServer(app);
 
 // socket instance
-const io = new Server(httpServer);
-
-//redis instance
-const redisClient = new Redis();
-
-// DB instance
-const usrStorage = new UserStore();
-
-// Middleware
-app.use(express.json());
-
-app.use(express.static('./my-app/build'));
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
-
-app.use(
-  session({
-    secret: SECRET,
-    cookie: {
-      maxAge: 86400000,
-    },
-    resave: false,
-    saveUninitialized: false,
-    store: new sessionHandler({
-      storage: "redis",
-      collection: "sessions",
-      instance: redisClient,
-    }),
-  })
-);
-
+const io = new SocketServer(httpServer);
 
 // Routes
-app.get("/isIn", (req, res) => {
-  if (req.session.usrId) {
-    res.status(200).end();
-  } else {
-    res.status(400).end();
-  }
-})
-
-app.get('/logout', (req, res) => {
-  try{
-    req.session.destroy();
-    res.status(200).end();
-  } catch(err) {
-    res.status(400).end();
-  }
-});
-
-app.post("/login", async (req, res) => {
-  let response = {};
-  const { usrName, pass } = req.body;
-
-  try {
-
-    const user = await usrStorage.findUniqUser({ userName: usrName });
-
-    if (!user || !UserStore.verifyUser(user.pass, pass)) {
-      throw new loginError("login Error", "LOGINERR");
-    }
-
-    req.session.usrId = usrStorage.fromObjectId(user._id);
-    res.status(200);
-
-  } catch (err) {
-    res.status(400);
-    response.ErrorCode = err instanceof loginError ? err.code : 'MISC';
-  } finally {
-    res.json(response).end();
-  }
-});
-
-app.post("/signup", async (req, res) => {
-  const { email, usrName, pass }  = req.body;
-
-  let response ={};
-
-  try {
-    const result = await usrStorage.newUser(usrName, email, pass);
-    req.session.usrId = usrStorage.fromObjectId(result.insertedId);
-    res.status(201);
-  } catch(err) {
-    res.status(400);
-    response.ErrorCode = err instanceof usrRegisterError ? err.code : 'MISC';
-  } finally {
-    res.json(response).end();
-  }
-});
+app.use("/api", router);
 
 // websock handlers
 io.on("connection", (socket) => {
@@ -145,20 +50,3 @@ io.on("connection", (socket) => {
   }
 })();
 
-
-// =========================== GraveYard ================
-
-// app.get("/", (req, res) => {
-//   if (req.session.usrId) {
-//     return res.redirect("/home");
-//   }
-//   res.sendFile(__dirname + "/my-app/build/register.html");
-//   // res.sendFile(__dirname + "/staticTest/register.html");
-// });
-
-// app.get("/home", (req, res) => {
-//   if (!req.session.usrId) {
-//     return res.redirect("/");
-//   }
-//   res.sendFile(__dirname + "/my-app/build/index.html");
-// });

@@ -3,7 +3,7 @@ import { hash } from "../utils.js"
 import { usrRegisterError } from "../errors";
 
 
-export default class UserStore extends BasicStore {
+export class UserStore extends BasicStore {
   usrCollection = null;
 
   async connect(){
@@ -43,3 +43,6 @@ export default class UserStore extends BasicStore {
     return hash(reqPass) === actualPass;
   }
 }
+
+const usrStorage = new UserStore();
+export default usrStorage;
