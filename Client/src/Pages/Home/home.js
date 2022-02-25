@@ -1,7 +1,7 @@
 // external dependency imports
 import {React, useState, useEffect} from "react";
 import date from 'date-and-time';
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 
@@ -28,20 +28,13 @@ export default function Home(props) {
   }, [])
   console.log(sender)
 
-  // let sock = io();
+  let sock = io();
 
   // let sendForm = document.getElementById("form");
   // let input = document.getElementById("input");
   // let logout = document.getElementById("logout");
 
-  // sendForm.addEventListener("submit", function (event) {
-  //   event.preventDefault();
-
-  //   if (input.value) {
-  //     sock.emit("chat message", input.value);
-  //     input.value = "";
-  //   }
-  // });
+      sock.emit("chat message", );
 
   if (loggedIn) {
     return (
