@@ -1,7 +1,9 @@
-import React from "react";
+// external dependency imports
+import date from 'date-and-time';
+import {React, useRef, useState, useEffect } from "react";
 
 // Style Imports
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 
 // File Imports
@@ -11,64 +13,80 @@ import { MessageLeft, MessageRight } from "./Message";
 const useStyles = makeStyles((theme) =>
   createStyles({
     paper: {
-      width: "80vw",
-      height: "80vh",
-      maxWidth: "500px",
-      maxHeight: "700px",
+      width: '100%',
+      height: '6rem',
       display: "flex",
-      alignItems: "center",
       flexDirection: "column",
-      position: "relative"
-    },
-    paper2: {
-      width: "80vw",
-      maxWidth: "500px",
-      display: "flex",
-      alignItems: "center",
-      flexDirection: "column",
-      position: "relative"
+      position: "relative",
+      borderRadius: '15px',
+      boxShadow: '0 3px 5px 2px rgba(33, 19, 13, .3)'
     },
     container: {
-      width: "100vw",
-      height: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center"
+      width: '90%',
+      height: '100%',
+
     },
     messagesBody: {
       width: "calc( 100% - 20px )",
       margin: 10,
-      overflowY: "scroll",
-      height: "calc( 100% - 80px )"
+      height: "calc( 95% - 80px )",
+      backgroundColor: "#f3f6fb",
+      fontFamily: 'Dongle, sans-serif',
+      fontSize: '1.4em',
+      boxShadow: '0 3px 5px 2px rgba(33, 19, 13, .3)'
     }
   })
 );
 
-export default function Dashboard() {
-  function handleSubmit(i) {
-    console.log(i, 'helloaa');
+export default function Dashboard(props) {
+  const [ input, setInput ] = useState([]);
+  const [ output, setoutput ] = useState([]);
+  const messagesEndRef = useRef(null)
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
+
+  function handleSubmit(message) {
+    const pattern = date.compile('MMM D YYYY h:m:s A');
+    setInput(
+      input => [
+        ...input,
+        {message, now: date.format(new Date(), pattern)}
+      ]);
+  }
+
+  useEffect(scrollToBottom, [input]);
+
+  useEffect(() => {
+    props.section && setoutput(
+      output => [
+        ...output,
+        props.section.pop()
+      ]);
+  }, [props.section]);
+  console.log(props.section)
+
   const classes = useStyles();
   return (
     <div className={classes.container}>
-      <Paper className={classes.paper} zDepth={2}>
         <Paper id="style-1" className={classes.messagesBody}>
-          <MessageLeft
-            message="あめんぼあかいなあいうえお"
-            timestamp= '0'
+        {/* <MessageLeft
+            message=" const photoURL = props.photoURL ? props.photoURL : "
+            timestamp= 'MM/DD 00:00'
             photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
             displayName=""
             avatarDisp={true}
           />
           <MessageLeft
-            message="xxxxxhttps://yahoo.co.jp xxxxxxxxxあめんぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさいすせそ"
+            message="xxxxxhttps://yahoo.co.jp xxxxxxxxx"
             timestamp="MM/DD 00:00"
             photoURL=""
-            displayName="テスト"
+            displayName="https"
             avatarDisp={false}
           />
           <MessageLeft
-            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
+            message="messageR"
             timestamp="MM/DD 00:00"
             photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
             displayName="まさりぶ"
@@ -77,11 +95,27 @@ export default function Dashboard() {
           <MessageRight
             message="messageR"
             timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="まさりぶ"
+            photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
+            displayName="message3"
             avatarDisp={false}
-          />
+          /> */}
+          {output.message && output.map(x => (<MessageLeft
+      message={x.message}
+      timestamp={x.now}
+      photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
+      displayName={x.displayName}
+      avatarDisp={false}
+    />))}
+          {input.map(x => (<MessageRight
+      message={x.message}
+      timestamp={x.now}
+      photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
+      displayName="Philimon"
+      avatarDisp={false}
+    />))}
+          <div ref={messagesEndRef} />
         </Paper>
+      <Paper className={classes.paper}>
         <TextInput onClick={(i) => handleSubmit(i)}/>
       </Paper>
     </div>
