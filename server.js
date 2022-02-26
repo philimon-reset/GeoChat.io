@@ -25,7 +25,11 @@ const app = express();
 const httpServer = HttpServer(app);
 
 // socket instance
-const io = new SocketServer(httpServer);
+const io = new SocketServer(httpServer, {
+  cors: {
+    origin: "*"
+  }
+});
 
 // Routes
 app.use(router);
@@ -34,15 +38,17 @@ app.use(router);
 io.on("connection", (socket) => {
   console.log("connected");
   socket.on("chat message", (data) => {
-    console.log(data);
+    socket.emit("Incoming message", data);
   });
 });
+
+
 
 // start server
 (async () => {
   try {
     await usrStorage.connect();
-    httpServer.listen(PORT, "0.0.0.0", () => {
+    httpServer.listen(PORT, "127.0.0.1", () => {
       console.log(`Server Listening on ${PORT}`);
     });
   } catch (err) {

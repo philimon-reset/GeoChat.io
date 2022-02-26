@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
-import { Link, useNavigate} from 'react-router-dom';
-import useAuth from '../../hooks/useAuth'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { logIn, checkSesh } from '../../services/AuthService';
+import { register } from '../../services/UserService';
+import Home from '../Home/home';
 
 export function Register() {
   const [usrName, setUserName] = useState();
   const [pass, setPassword] = useState();
   const [email, setEmail] = useState();
-  const auth = useAuth();
   const navigate = useNavigate();
+  const [isIn, setIn] = useState(false);
+
+  useEffect(() => {
+    checkSesh().then((res) => {
+      if (res) {
+        setIn(true);
+      }
+    })
+  })
+
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const res = await auth.signUp({
+    const res = await register({
       usrName,
       email,
       pass
@@ -23,6 +35,7 @@ export function Register() {
     }
   }
 
+  if (!isIn){
   return (
     <div id="container">
       <form onSubmit={handleSubmit}>
@@ -38,36 +51,47 @@ export function Register() {
       <Link to="/login">Login</Link>
     </div>
   );
+  } else {
+    navigate("/home");
+  }
 }
 
 export function Login() {
   const [usrName, setUserName] = useState();
   const [pass, setPassword] = useState();
-  const auth = useAuth();
+  const [isIn, setIn] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    checkSesh().then((res) => {
+      if (res) {
+        setIn(true);
+      }
+    })
+  }, []);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const res = await auth.signIn({
+    const res = await logIn({
       usrName,
       pass
     });
-    if (res) {
-      navigate("/home");
-    } else {
-      navigate("/login");
-    }
+    setIn(res);
   }
 
-  return (
-    <div id="container">
-      <form onSubmit={handleSubmit}>
-          <label for="usrName"> User Name </label>
-          <input type="text" id="usrName" onChange={e => setUserName(e.target.value)}/>
-          <label for="pass"> Password </label>
-          <input type="password" id="pass" onChange={e => setPassword(e.target.value)}/>
-          <input type="submit" value="login" />
-      </form>
-    </div>
-  );
+  if (!isIn){
+    return (
+      <div id="container">
+        <form onSubmit={handleSubmit}>
+            <label for="usrName"> User Name </label>
+            <input type="text" id="usrName" onChange={e => setUserName(e.target.value)}/>
+            <label for="pass"> Password </label>
+            <input type="password" id="pass" onChange={e => setPassword(e.target.value)}/>
+            <input type="submit" value="login" />
+        </form>
+      </div>
+    );
+  } else{
+    return <Home />;
+  }
 }

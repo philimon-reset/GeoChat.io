@@ -10,6 +10,9 @@ import { Paper } from "@material-ui/core";
 import { TextInput } from "./Input";
 import { MessageLeft, MessageRight } from "./Message";
 
+//socket imports
+import socket from "../../services/socket";
+
 const useStyles = makeStyles((theme) =>
   createStyles({
     paper: {
@@ -49,24 +52,23 @@ export default function Dashboard(props) {
 
   function handleSubmit(message) {
     const pattern = date.compile('MMM D YYYY h:m:s A');
-    setInput(
-      input => [
-        ...input,
-        {message, now: date.format(new Date(), pattern)}
-      ]);
+    const new_input = input.concat([{message, now: date.format(new Date(), pattern)}])
+
+    socket.emit("chat message", new_input[input.length - 1]);
+    console.log("sending", new_input[input.length - 1]);
+
+    setInput(new_input);
   }
 
   useEffect(scrollToBottom, [input]);
 
-  useEffect(() => {
-    props.section && setoutput(
-      output => [
-        ...output,
-        props.section.pop()
-      ]);
-  }, [props.section]);
-  console.log(props.section)
-
+  // useEffect(() => {
+  //   props.section && setoutput(
+  //     output => [
+  //       ...output,
+  //       props.section.pop()
+  //     ]);
+  // }, [props.section]);
   const classes = useStyles();
   return (
     <div className={classes.container}>

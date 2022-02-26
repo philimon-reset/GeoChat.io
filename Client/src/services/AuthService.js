@@ -2,7 +2,9 @@ import axios from "axios";
 
 export async function logIn(creds) {
   try{
-    await axios.post("http://127.0.0.1:8000/login", creds);
+    await axios.post("http://localhost:8000/login", creds, {
+      withCredentials: true
+    });
     return true;
   } catch(err) {
     return false;
@@ -11,7 +13,20 @@ export async function logIn(creds) {
 
 export async function logOut(){
   try {
-    await axios.get("/logout");
+    await axios.get("http://localhost:8000/logout", {
+      withCredentials: true
+    });
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function checkSesh() {
+  try {
+    await axios.get("http://localhost:8000/isIn", {
+      withCredentials: true
+    });
     return true;
   } catch (error) {
     return false;

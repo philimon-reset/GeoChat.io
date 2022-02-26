@@ -3,7 +3,8 @@ import { loginError } from "../Engines/errors";
 
 export default class AuthController {
 
-  static isIn(req, res) {
+  static async isIn(req, res) {
+
     if (req.session.usrId) {
       res.status(200).end();
     } else {
@@ -32,14 +33,11 @@ export default class AuthController {
       }
 
       req.session.usrId = usrStorage.fromObjectId(user._id);
-      res.status(200);
+      res.status(200).json(response).end();
     } catch (err) {
-      res.status(400);
       response.ErrorCode = err instanceof loginError ? err.code : 'MISC';
-    } finally {
-      res.json(response).end();
+      res.status(400).json(response).end();
     }
-
   }
 
 }

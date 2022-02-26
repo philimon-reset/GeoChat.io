@@ -26,13 +26,14 @@ const redisClient = new Redis();
 router.use(express.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(cors({
-  origin: 'http://localhost:3000'
+  origin: 'http://localhost:3000',
+  credentials: true
 }));
 router.use(
   session({
     secret: SECRET,
     cookie: {
-      maxAge: 86400000,
+      maxAge: 86400000
     },
     resave: false,
     saveUninitialized: false,
