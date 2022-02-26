@@ -29,21 +29,22 @@ router.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }));
-router.use(
-  session({
-    secret: SECRET,
-    cookie: {
-      maxAge: 86400000
-    },
-    resave: false,
-    saveUninitialized: false,
-    store: new sessionHandler({
-      storage: "redis",
-      collection: "sessions",
-      instance: redisClient,
-    }),
-  })
-);
+
+export const session = session({
+  secret: SECRET,
+  cookie: {
+    maxAge: 86400000
+  },
+  resave: false,
+  saveUninitialized: false,
+  store: new sessionHandler({
+    storage: "redis",
+    collection: "sessions",
+    instance: redisClient,
+  }),
+});
+
+router.use(session);
 
 // Routes
 router.get("/isIn", AuthController.isIn);

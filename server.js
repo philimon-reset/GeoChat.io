@@ -2,14 +2,18 @@
 import express from "express";
 import { createServer as HttpServer} from "http";
 
-// socket imports
-import { Server as SocketServer } from "socket.io";
-
 // env
 import { env } from "process";
 
 // storage imports
 import usrStorage from "./Engines/StorageEngine/UserStore";
+
+// Socket import
+import { Server as SocketServer } from 'socket.io';
+import sharedsession from "express-socket.io-session";
+import session from './routes/index';
+import IoController from "./controllers/IoController";
+
 
 // router import
 import router from "./routes";
@@ -20,6 +24,7 @@ const PORT = env.chatAppPort || 8000;
 
 // Express APP
 const app = express();
+app.use(router);
 
 // http server
 const httpServer = HttpServer(app);
@@ -31,18 +36,10 @@ const io = new SocketServer(httpServer, {
   }
 });
 
-// Routes
-app.use(router);
+io.use(sharedsession(session));
 
 // websock handlers
-io.on("connection", (socket) => {
-  console.log("connected");
-  socket.on("chat message", (data) => {
-    socket.emit("Incoming message", data);
-  });
-});
-
-
+io.on("connection", IoController.onConnection);
 
 // start server
 (async () => {
