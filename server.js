@@ -6,7 +6,7 @@ import { createServer as HttpServer} from "http";
 import { env } from "process";
 
 // storage imports
-import usrStorage from "./Engines/StorageEngine/UserStore";
+import Client from "./Engines/StorageEngine/BasicStore";
 
 // Socket import
 import { Server as SocketServer } from 'socket.io';
@@ -44,7 +44,7 @@ io.on("connection", IoController.onConnection);
 // start server
 (async () => {
   try {
-    await usrStorage.connect();
+    await Client.connect();
     httpServer.listen(PORT, "127.0.0.1", () => {
       console.log(`Server Listening on ${PORT}`);
     });
@@ -52,4 +52,3 @@ io.on("connection", IoController.onConnection);
     console.log(error);
   }
 })();
-

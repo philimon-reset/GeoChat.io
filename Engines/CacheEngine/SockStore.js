@@ -1,15 +1,19 @@
 import RedisClient from "./BasicStore";
 
 
-class SocketStore {
-  static hashSet = "sockMap";
+const SocketStore = {
+  hashSet: "sockMap",
 
-  static async get(key) {
-    return RedisClient.hget(hashSet, key);
-  }
+  async get(key) {
+    return RedisClient.hget(this.hashSet, key);
+  },
 
-  static async set(key, value) {
-    return RedisClient.hset(hashSet, key, value);
+  async set(key, value) {
+    return RedisClient.hset(this.hashSet, key, value);
+  },
+
+  async del(key) {
+    return RedisClient.hdel(this.hashSet, key);
   }
 }
 

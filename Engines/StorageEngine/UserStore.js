@@ -1,4 +1,4 @@
-import BasicStore from "./BasicStore";
+import Client, { BasicStore } from "./BasicStore";
 import { hash } from "../utils.js"
 import { usrRegisterError } from "../errors";
 
@@ -6,9 +6,8 @@ import { usrRegisterError } from "../errors";
 export class UserStore extends BasicStore {
   usrCollection = null;
 
-  async connect(){
-    await super.connect();
-    this.usrCollection = this.db.collection('users')
+  constructor(MongoInstance) {
+    this.usrCollection = MongoInstance.db().collection('users')
   }
 
   async newUser(usrName, usrEmail, usrPass) {
@@ -44,5 +43,5 @@ export class UserStore extends BasicStore {
   }
 }
 
-const usrStorage = new UserStore();
+const usrStorage = new UserStore(Client);
 export default usrStorage;
