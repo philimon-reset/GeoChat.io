@@ -7,7 +7,7 @@ export default class UserController {
     const { email, usrName, pass }  = req.body;
 
     let response ={};
-  
+
     try {
       const result = await usrStorage.newUser(usrName, email, pass);
       req.session.usrId = usrStorage.fromObjectId(result.insertedId);

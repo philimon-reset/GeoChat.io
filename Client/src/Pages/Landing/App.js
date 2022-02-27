@@ -1,27 +1,13 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { Register, Login } from '../Login/Entry'
-
-
-function Nav() {
-  return(
-    <div className="wrapper">
-    <h1>Application</h1>
-    <nav style={{ borderBottom: 'solid 1px', paddingBottom: '1rem' }}>
-      <Link to="/login">Login</Link> |{' '}
-      <Link to="/register">Register</Link>
-    </nav>
-  </div>
-  );
-}
+import { BasicTabs, useStyles } from '../components/styles/entry_S'
 
 function App() {
+  const classes = useStyles();
   return (
       <div>
-        <Nav />
-        <Routes>
-          <Route exact path="/login" element={<Login />}/>
-          <Route exact path="/register" element={<Register />}/>
-        </Routes>
+        <div className={classes.container}></div>
+        <BasicTabs Login_C={<Login/>} Register_C={<Register/>}/>
       </div>
   );
 }

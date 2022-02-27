@@ -1,45 +1,15 @@
 // external dependency imports
 import date from 'date-and-time';
 import {React, useRef, useState, useEffect } from "react";
-
-// Style Imports
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";  
 
 // File Imports
 import { TextInput } from "./Input";
 import { MessageLeft, MessageRight } from "./Message";
+import useStyles from "./styles/dashboard_S"
 
 //socket imports
 import socket from "../../services/socket";
-
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    paper: {
-      width: '100%',
-      height: '6rem',
-      display: "flex",
-      flexDirection: "column",
-      position: "relative",
-      borderRadius: '15px',
-      boxShadow: '0 3px 5px 2px rgba(33, 19, 13, .3)'
-    },
-    container: {
-      width: '90%',
-      height: '100%',
-
-    },
-    messagesBody: {
-      width: "calc( 100% - 20px )",
-      margin: 10,
-      height: "calc( 95% - 80px )",
-      backgroundColor: "#f3f6fb",
-      fontFamily: 'Dongle, sans-serif',
-      fontSize: '1.4em',
-      boxShadow: '0 3px 5px 2px rgba(33, 19, 13, .3)'
-    }
-  })
-);
 
 export default function Dashboard(props) {
   const [ input, setInput ] = useState([]);
