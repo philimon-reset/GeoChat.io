@@ -8,6 +8,7 @@ export default class IoController {
 
     // Initial Setup
     const { usrId } = socket.handshake.session;
+    console.log(socket.handshake);
     await SocketStore.set(socket.id, usrId);
     socket.join(usrId);
 
@@ -15,7 +16,7 @@ export default class IoController {
     socket.emit("UsersList", "Dummy data");
 
     // Private message handler
-    socket.on("PrivateMsgSent", (data) => {
+    socket.on("PrivateMsgSent", async (data) => {
       const { room, message } = data;
       room = await SocketStore.get(room);
 
@@ -30,7 +31,7 @@ export default class IoController {
 
 
     // Disconnection Handler
-    socket.on("disconnect", (reason) => {
+    socket.on("disconnect", async (reason) => {
       console.log(socket.id + " Disconnected");
       console.log(`Reason: ${reason}`);
 

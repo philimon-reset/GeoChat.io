@@ -7,6 +7,7 @@ export class UserStore extends BasicStore {
   usrCollection = null;
 
   constructor(MongoInstance) {
+    super();
     this.usrCollection = MongoInstance.db().collection('users')
   }
 

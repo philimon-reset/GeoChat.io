@@ -11,7 +11,7 @@ import Client from "./Engines/StorageEngine/BasicStore";
 // Socket import
 import { Server as SocketServer } from 'socket.io';
 import sharedsession from "express-socket.io-session";
-import session from './routes/index';
+import { session_config } from './routes/index';
 import IoController from "./controllers/IoController";
 
 
@@ -32,11 +32,13 @@ const httpServer = HttpServer(app);
 // socket instance
 const io = new SocketServer(httpServer, {
   cors: {
-    origin: "*"
+    origin: '*'
   }
 });
 
-io.use(sharedsession(session));
+io.use(sharedsession(session_config, {
+  autoSave: true
+}));
 
 // websock handlers
 io.on("connection", IoController.onConnection);
@@ -45,7 +47,7 @@ io.on("connection", IoController.onConnection);
 (async () => {
   try {
     await Client.connect();
-    httpServer.listen(PORT, "127.0.0.1", () => {
+    httpServer.listen(PORT, "localhost", () => {
       console.log(`Server Listening on ${PORT}`);
     });
   } catch (err) {

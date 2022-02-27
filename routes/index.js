@@ -30,11 +30,8 @@ router.use(cors({
   credentials: true
 }));
 
-export const session = session({
+export const session_config = session({
   secret: SECRET,
-  cookie: {
-    maxAge: 86400000
-  },
   resave: false,
   saveUninitialized: false,
   store: new sessionHandler({
@@ -44,7 +41,7 @@ export const session = session({
   }),
 });
 
-router.use(session);
+router.use(session_config);
 
 // Routes
 router.get("/isIn", AuthController.isIn);

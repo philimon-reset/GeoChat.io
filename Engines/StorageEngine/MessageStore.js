@@ -4,6 +4,7 @@ export class MessageStore extends BasicStore {
   msgCollection = null;
 
   constructor(MongoInstance) {
+    super();
     this.msgCollection = MongoInstance.db().collection('messages');
   }
 
