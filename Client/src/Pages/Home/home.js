@@ -28,6 +28,9 @@ export default function Home(props) {
     socket.connect();
   }, []);
 
+  socket.on("UsersList", (data) => {
+    console.table(data);
+  })
   // useEffect(() => {
   //   setSender([message]);
   // }, [message]);

@@ -12,7 +12,8 @@ export default class IoController {
     socket.join(usrId);
 
     // Send Available Users
-    socket.emit("UsersList", "Dummy data");
+    const users = await SocketController.onUsersList(usrId);
+    socket.emit("UsersList", users);
 
     // Private message handler
     socket.on("PrivateMsgSent", async (data) => {
@@ -25,7 +26,7 @@ export default class IoController {
       const sender = await SocketStore.get(socket.id);
 
       // Save Message to DB
-      SocketController.onMessage(sender, room, {message, timestamp});
+      await SocketController.onMessage(sender, room, {message, timestamp});
 
       const ForwardMessage = { sender, message, timestamp };
 
@@ -33,6 +34,7 @@ export default class IoController {
       socket.to(room).emit("PrivateMsgForward", ForwardMessage);
     });
 
+    // testing purposes
     socket.on("pubMsg", async (data) => {
       console.log(data);
       const { message, timestamp } = data;

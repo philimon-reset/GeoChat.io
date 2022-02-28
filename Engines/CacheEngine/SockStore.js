@@ -14,6 +14,10 @@ const SocketStore = {
 
   async del(key) {
     return RedisClient.hdel(this.hashSet, key);
+  },
+
+  async getAll() {
+    return RedisClient.hgetall(this.hashSet);
   }
 }
 
