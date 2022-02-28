@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // server imports
 import express from "express";
 import { createServer as HttpServer} from "http";
@@ -55,3 +56,20 @@ io.on("connection", IoController.onConnection);
     console.log(error);
   }
 })();
+=======
+const constraints = {
+  video: {
+    width: 512,
+    height: 512,
+  },
+};
+
+navigator.getUserMedia(constraints, function (stream) {
+  video.srcObject = stream;
+  video.play();
+}, (err) => console.error(err));
+
+video.addEventListener('play', function () {
+  window.requestAnimationFrame(processFrame);
+});
+>>>>>>> 0472996... first push
