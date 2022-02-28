@@ -1,7 +1,7 @@
 // external dependency imports
 import date from 'date-and-time';
-import {React, useRef, useState, useEffect } from "react";
-import { Paper } from "@material-ui/core";  
+import { React, useRef, useState, useEffect } from "react";
+import { Paper } from "@material-ui/core";
 
 // File Imports
 import { TextInput } from "./Input";
@@ -12,8 +12,8 @@ import useStyles from "./styles/dashboard_S"
 import socket from "../../services/socket";
 
 export default function Dashboard(props) {
-  const [ input, setInput ] = useState([]);
-  const [ output, setoutput ] = useState([]);
+  const [input, setInput] = useState([]);
+  const [output, setoutput] = useState([]);
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
@@ -22,10 +22,12 @@ export default function Dashboard(props) {
 
   function handleSubmit(message) {
     const pattern = date.compile('MMM D YYYY h:m:s A');
-    const new_input = input.concat([{message, now: date.format(new Date(), pattern)}])
+    const compiledMsg = { message, timestamp: date.format(new Date(), pattern) }
+    const new_input = input.concat([compiledMsg]);
 
-    socket.emit("chat message", new_input[input.length - 1]);
-    console.log("sending", new_input[input.length - 1]);
+    socket.emit("pubMsg", compiledMsg);
+    // socket.emit("chat message", new_input[input.length - 1]);
+    // console.log("sending", new_input[input.length - 1]);
 
     setInput(new_input);
   }
@@ -42,7 +44,7 @@ export default function Dashboard(props) {
   const classes = useStyles();
   return (
     <div className={classes.container}>
-        <Paper id="style-1" className={classes.messagesBody}>
+      <Paper id="style-1" className={classes.messagesBody}>
         {/* <MessageLeft
             message=" const photoURL = props.photoURL ? props.photoURL : "
             timestamp= 'MM/DD 00:00'
@@ -71,24 +73,24 @@ export default function Dashboard(props) {
             displayName="message3"
             avatarDisp={false}
           /> */}
-          {output.message && output.map(x => (<MessageLeft
-      message={x.message}
-      timestamp={x.now}
-      photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
-      displayName={x.displayName}
-      avatarDisp={false}
-    />))}
-          {input.map(x => (<MessageRight
-      message={x.message}
-      timestamp={x.now}
-      photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
-      displayName="Philimon"
-      avatarDisp={false}
-    />))}
-          <div ref={messagesEndRef} />
-        </Paper>
+        {output.message && output.map(x => (<MessageLeft
+          message={x.message}
+          timestamp={x.timestamp}
+          photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
+          displayName={x.displayName}
+          avatarDisp={false}
+        />))}
+        {input.map(x => (<MessageRight
+          message={x.message}
+          timestamp={x.timestamp}
+          photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
+          displayName="Philimon"
+          avatarDisp={false}
+        />))}
+        <div ref={messagesEndRef} />
+      </Paper>
       <Paper className={classes.paper}>
-        <TextInput onClick={(i) => handleSubmit(i)}/>
+        <TextInput onClick={(i) => handleSubmit(i)} />
       </Paper>
     </div>
   );

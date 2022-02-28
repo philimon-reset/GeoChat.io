@@ -5,7 +5,6 @@ import date from 'date-and-time';
 
 // File Imports
 import Dashboard from '../components/Dashboard';
-import {checkSesh} from '../../services/AuthService';
 
 // style imports
 import { AppShell, Burger, Header, MediaQuery, Navbar, Text, useMantineTheme } from '@mantine/core';

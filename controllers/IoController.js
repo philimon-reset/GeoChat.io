@@ -8,7 +8,6 @@ export default class IoController {
 
     // Initial Setup
     const { usrId } = socket.handshake.session;
-    console.log(socket.handshake);
     await SocketStore.set(socket.id, usrId);
     socket.join(usrId);
 
@@ -17,18 +16,29 @@ export default class IoController {
 
     // Private message handler
     socket.on("PrivateMsgSent", async (data) => {
-      const { room, message } = data;
+      const { room, message, timestamp } = data;
+
+      // reciever address
       room = await SocketStore.get(room);
 
-      // Save Message to DB
-      SocketController.onMessage(room, data);
+      // sender address
+      const sender = await SocketStore.get(socket.id);
 
-      const ForwardMessage = { message, from: socket.id };
+      // Save Message to DB
+      SocketController.onMessage(sender, room, {message, timestamp});
+
+      const ForwardMessage = { sender, message, timestamp };
 
       // Send message to reciever
       socket.to(room).emit("PrivateMsgForward", ForwardMessage);
     });
 
+    socket.on("pubMsg", async (data) => {
+      console.log(data);
+      const { message, timestamp } = data;
+      const sender = await SocketStore.get(socket.id);
+      SocketController.onMessage(sender, sender, {message, timestamp});
+    })
 
     // Disconnection Handler
     socket.on("disconnect", async (reason) => {

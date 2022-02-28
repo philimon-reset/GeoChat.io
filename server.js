@@ -32,7 +32,8 @@ const httpServer = HttpServer(app);
 // socket instance
 const io = new SocketServer(httpServer, {
   cors: {
-    origin: '*'
+    origin: 'http://localhost:3000',
+    credentials: true
   }
 });
 
