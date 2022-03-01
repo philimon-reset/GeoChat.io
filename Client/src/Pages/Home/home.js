@@ -5,12 +5,13 @@ import date from 'date-and-time';
 
 // File Imports
 import Dashboard from '../components/Dashboard';
+import UserList from './userlist'
 
 // style imports
 import { AppShell, Burger, Header, MediaQuery, Navbar, Text, useMantineTheme } from '@mantine/core';
 
 
-// socket import 
+// socket import
 import socket from "../../services/socket";
 
 
@@ -18,8 +19,8 @@ export default function Home(props) {
   const [opened, setOpened] = useState(false);
   const [sender, setSender] = useState([]);
   const theme = useMantineTheme();
-  const [isIn, setIn] = useState(false);
-  // let message = null;
+  const [active, setactive] = useState(null);
+  const [pool, setpool] = useState([{displayName: 'Abel', socket: 'Hello reciver'}, {displayName: 'Abel', socket: 'Hello reciver'}]);
 
   useEffect(() => {
     // const pattern = date.compile('MMM D YYYY h:m:s A');
@@ -28,17 +29,12 @@ export default function Home(props) {
     socket.connect();
   }, []);
 
+  const handleActive = (data) => {
+    setactive(data)
+  };
   socket.on("UsersList", (data) => {
-    console.table(data);
+    setpool(data);
   })
-  // useEffect(() => {
-  //   setSender([message]);
-  // }, [message]);
-
-  // socket.on("Incoming message", (msg) => {
-  //   console.log("reciveing", message);
-  //   message = msg;
-  // })
 
   return (
     <AppShell
@@ -58,7 +54,8 @@ export default function Home(props) {
           // viewport size > theme.breakpoints.lg – width is 400px
           width={{ sm: 300, lg: 400 }}
         >
-          <Text>Application navbar</Text>
+          <Text>Active Users</Text>
+          {pool.map((element, index) => <UserList  onClick={() => handleActive(element)} key={index} data={element}/>)}
         </Navbar>
       }
       header={
@@ -79,7 +76,7 @@ export default function Home(props) {
         </Header>
       }
     >
-      <Dashboard section={sender}/>
+      {active && <Dashboard chatData={active} section={sender}/>}
     </AppShell>
   );
 }

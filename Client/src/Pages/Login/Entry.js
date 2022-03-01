@@ -1,6 +1,7 @@
 // External imports
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 // style imports
 import Button from '@material-ui/core/Button';
@@ -13,6 +14,7 @@ import { register } from '../../services/UserService';
 import Home from '../Home/home';
 
 export function Register() {
+  let navigate = useNavigate();
   const [usrName, setUserName] = useState();
   const [pass, setPassword] = useState();
   const [email, setEmail] = useState();
@@ -49,11 +51,12 @@ export function Register() {
     </div>
   );
   } else {
-    return <Home />
+    return <Home/>
   }
 }
 
 export function Login() {
+  let navigate = useNavigate();
   const [usrName, setUserName] = useState();
   const [pass, setPassword] = useState();
   const [isIn, setIn] = useState(false);
@@ -87,6 +90,6 @@ export function Login() {
     </div>
   );
   } else {
-    return <Home />
+    return <Home/>
   }
 }

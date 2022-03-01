@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import { Paper, Grid } from "@material-ui/core";
+import { Paper, Grid, Button } from "@material-ui/core";
 import Box from '@mui/material/Box';
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { urlencoded } from 'body-parser';
+import { Register, Login } from '../../Login/Entry'
 
 
 
@@ -22,22 +22,27 @@ export const useStyles = makeStyles((theme) =>
     },
     containerL: {
       // float: 'left',
-      height: '98.3vh',
+      background: '#87f1ff',
+      height: '95%',
       borderRadius: '15px',
       boxShadow: '0 3px 5px 2px rgba(33, 19, 13, .3)',
       width: '75vw',
-      position: 'absolute'
+      position: 'absolute',
+      zIndex: 10,
+      margin: '1.5rem',
+      color: '#582B11'
     },
     containerR: {
       // float: 'left',
       height: '60vh',
       borderRadius: '15px',
       boxShadow: '0 3px 5px 2px rgba(33, 19, 13, .3)',
-      background: '#fff',
+      background: '#dbe4ee',
       width: '30vw',
       position: 'absolute',
-      right: 0,
-      margin: '10rem'
+      margin: '10rem',
+      zIndex: 20,
+      transition: 'all 1s'
     },
     center: {
       margin: 'auto',
@@ -53,6 +58,15 @@ export const useStyles = makeStyles((theme) =>
       right: 100,
       padding: '.8rem',
       width: '25%',
+      margin: '1rem',
+      boxShadow: '0 3px 5px 2px rgba(33, 19, 13, .3)'
+    },
+    wrapBl : {
+      position: 'absolute',
+      right: 120,
+      bottom: '20%',
+      padding: '.8rem',
+      width: '40%',
       margin: '1rem',
       boxShadow: '0 3px 5px 2px rgba(33, 19, 13, .3)'
     },
@@ -116,10 +130,10 @@ function BasicTabs(props) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {props.Login_C}
+        <Login/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {props.Register_C}
+        <Register/>
       </TabPanel>
     </Box>
   );
@@ -128,16 +142,38 @@ function BasicTabs(props) {
 
 export function Landing(props) {
   const classes = useStyles();
+  const [flip, setflip] = React.useState({opacity: 0});
+  const styles = {
+  };
+
+  const handleFlip = () => {
+    if (flip.opacity === 0) {
+      styles.opacity = 1
+      styles.transform = `translateX(61vw)`
+      setflip(styles)
+    }
+    else {
+      styles.opacity = 0
+      styles.transform = `translateX(-10%)`
+      styles.zIndex = 0
+      setflip(styles)
+    }
+  };
+
   return(
-    <Grid container style={{position: 'relative'}}>
+    // style={{position: 'relative', background: '#3e7cb1'}} for the grid container
+    <div style={{height: '100vh', background: '#BD8B9C'}}>
+    <Grid container>
       <Grid item className={classes.containerL}>
-        <Paper />
+        <Button variant="contained" color="primary" className={classes.wrapBl} onClick={handleFlip}>Register</Button>
       </Grid>
-      <Grid item className={classes.containerR}>
+      <Grid item className={classes.containerR} style={{...flip}}>
         <Paper>
-          <BasicTabs Login_C={props.Login_C} Register_C={props.Register_C}/>
+          <BasicTabs/>
         </Paper>
       </Grid>
     </Grid>
+    </div>
+
   )
 }

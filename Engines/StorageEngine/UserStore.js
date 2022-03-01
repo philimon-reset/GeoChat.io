@@ -27,14 +27,14 @@ export class UserStore extends BasicStore {
 
   async findUniqUser(filter) {
     if ('_id' in filter) {
-      filter._id = this.toObjectId(filter._id);   
+      filter._id = this.toObjectId(filter._id);
     }
     return this.usrCollection.findOne(filter);
   }
 
   async findUsers(filter) {
     if ('_id' in filter) {
-      filter._id = this.toObjectId(filter._id);   
+      filter._id = this.toObjectId(filter._id);
     }
     return this.usrCollection.find(filter);
   }
