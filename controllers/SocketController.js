@@ -14,7 +14,7 @@ export default class SocketController {
     const temp = [];
     for (let key in raw) {
       const val = raw[key];
-      if (!(temp.includes(val)) && val !== currentUser) {
+      if (val && !(temp.includes(val)) && val !== currentUser) {
         const usr = await usrStorage.findUniqUser({ _id: val })
         // socket id of user
         usr.channel = key

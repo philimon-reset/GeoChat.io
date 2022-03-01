@@ -24,7 +24,7 @@ export function Register() {
         setIn(true);
       }
     })
-  })
+  }, [])
 
 
   const handleSubmit = async e => {

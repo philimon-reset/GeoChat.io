@@ -8,6 +8,7 @@ export default class UserController {
 
     try {
       const result = await usrStorage.newUser(usrName, email, pass);
+
       req.session.usrId = usrStorage.fromObjectId(result.insertedId);
       res.status(201).json({ usrName }).end();
     } catch(err) {
