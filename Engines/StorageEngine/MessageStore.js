@@ -1,4 +1,5 @@
 import Client, { BasicStore } from "./BasicStore";
+import usrStorage from './UserStore';
 
 export class MessageStore extends BasicStore {
   msgCollection = null;
@@ -9,8 +10,14 @@ export class MessageStore extends BasicStore {
   }
 
   async newMessage(from, to, message) {
-    let chat = null;
-    chat = await this.msgCollection.findOne({ "$or" : [{ chatName: `${from}|${to}` }, { chatName: `${to}|${from}` }] });
+
+    from = (await usrStorage.findUniqUser({ _id: from })).userName;
+    to = (await usrStorage.findUniqUser({ _id: to })).userName;
+    message.sender = from;
+
+    console.log(from, to);
+    const chat = await this.msgCollection.findOne({ "$or" : [{ chatName: `${from}|${to}` }, { chatName: `${to}|${from}` }] });
+
     if (chat) {
       const newContent = { ...chat, content: chat.content.concat(message)};
       return this.msgCollection.updateOne({ chatName: chat.chatName }, {
@@ -22,6 +29,13 @@ export class MessageStore extends BasicStore {
         content: [message]
       });
     }
+  }
+
+
+  async getMessages(from, to) {
+
+    const chat = await this.msgCollection.findOne({ "$or" : [{ chatName: `${from}|${to}` }, { chatName: `${to}|${from}` }] });
+    return chat.content;
   }
 }
 

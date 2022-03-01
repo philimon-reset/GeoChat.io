@@ -4,7 +4,6 @@ import { loginError } from "../Engines/errors";
 export default class AuthController {
 
   static async isIn(req, res) {
-
     if (req.session.usrId) {
       res.status(200).end();
     } else {
@@ -22,7 +21,6 @@ export default class AuthController {
   }
 
   static async login(req, res) {
-    let response = {};
     const { usrName, pass } = req.body;
 
     try {
@@ -32,12 +30,16 @@ export default class AuthController {
         throw new loginError("login Error", "LOGINERR");
       }
 
+      // clean_up
+      delete user.pass;
+      delete user.email;
+
       req.session.usrId = usrStorage.fromObjectId(user._id);
-      res.status(200).json(response).end();
+      res.status(200).json(user).end();
     } catch (err) {
-      response.ErrorCode = err instanceof loginError ? err.code : 'MISC';
-      res.status(400).json(response).end();
+      res.status(400).json({
+        ErrorCode: err instanceof loginError ? err.code : 'MISC'
+      }).end();
     }
   }
-
 }

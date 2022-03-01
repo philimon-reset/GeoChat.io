@@ -1,6 +1,6 @@
 import SocketController from './SocketController';
 import SocketStore from '../Engines/CacheEngine/SockStore';
-
+import usrStorage from '../Engines/StorageEngine/UserStore';
 
 export default class IoController {
   static async onConnection(socket) {
@@ -23,11 +23,12 @@ export default class IoController {
       room = await SocketStore.get(room);
 
       // sender address
-      const sender = await SocketStore.get(socket.id);
+      let sender = await SocketStore.get(socket.id);
 
       // Save Message to DB
       await SocketController.onMessage(sender, room, {message, timestamp});
 
+      sender = await usrStorage.findUniqUser({ _id: sender }).userName;
       const ForwardMessage = { sender, message, timestamp };
 
       // Send message to reciever

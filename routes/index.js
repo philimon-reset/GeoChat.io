@@ -14,6 +14,7 @@ import { env } from "process";
 // Controllers
 import AuthController from '../controllers/AuthController';
 import UserController from '../controllers/UserController';
+import MessageController from '../controllers/MessageController';
 
 // ENV vars
 const SECRET = env.chatAppSecret || "IHAVENOSECRETS";
@@ -48,5 +49,6 @@ router.get("/isIn", AuthController.isIn);
 router.get('/logout', AuthController.logout);
 router.post("/login", AuthController.login);
 router.post("/signup", UserController.newUser);
+router.post("/getMessages", MessageController.getMessages);
 
 export default router;
