@@ -42,9 +42,9 @@ export function Register() {
     <div id="container">
       <form target = '_self' class={classes.center}>
           <Textfield className={classes.wrapText} label="Username" type="text" id="usrName" variant="outlined" color= "primary" value = {usrName} onChange={e => setUserName(e.target.value)}/><br />
-          <Textfield className={classes.wrapText} label="Email" type="text" id="email" variant="outlined" color= "primary" value = {email} onChange={e => setEmail(e.target.value)}/><br/>
+          <Textfield className={classes.wrapText} label="Email" type="text" id="email" variant="outlined" color= "primary" placeholder="test@test.com" value = {email} onChange={e => setEmail(e.target.value)}/><br/>
           <Textfield className={classes.wrapText} label="Password" type="password" id="pass" variant="outlined" color= "primary" value = {pass} onChange={e => setPassword(e.target.value)}/><br />
-          <Button type="submit" variant="contained" color="secondary" className={classes.wrapText}  onClick={handleSubmit}>Register</Button>
+          <Button type="submit" variant="contained" color="primary" className={classes.wrapB}  onClick={handleSubmit}>Register</Button>
       </form>
     </div>
   );
@@ -82,7 +82,7 @@ export function Login() {
       <form target = '_self' class={classes.center}>
           <Textfield className={classes.wrapText} label="Username" type="text" id="usrName" variant="outlined" color="primary" value = {usrName} onChange={e => setUserName(e.target.value)}/><br />
           <Textfield className={classes.wrapText} label="Password" type="password" id="pass" variant="outlined" color="primary" value = {pass} onChange={e => setPassword(e.target.value)}/><br />
-          <Button type="submit" variant="contained" color="secondary" className={classes.wrapText}  onClick={handleSubmit}>Login</Button>
+          <Button type="submit" variant="contained" color="primary" className={classes.wrapB}  onClick={handleSubmit}>Login</Button>
       </form>
     </div>
   );
