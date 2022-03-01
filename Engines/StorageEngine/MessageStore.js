@@ -12,9 +12,9 @@ export class MessageStore extends BasicStore {
     let chat = null;
     chat = await this.msgCollection.findOne({ "$or" : [{ chatName: `${from}|${to}` }, { chatName: `${to}|${from}` }] });
     if (chat) {
+      const newContent = { ...chat, content: chat.content.concat(message)};
       return this.msgCollection.updateOne({ chatName: chat.chatName }, {
-        ...chat,
-        content: [ ...content, message]
+        "$set": newContent
       });
     } else {
       return this.msgCollection.insertOne({
