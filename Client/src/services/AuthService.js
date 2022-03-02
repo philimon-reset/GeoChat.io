@@ -24,10 +24,10 @@ export async function logOut() {
 
 export async function checkSesh() {
   try {
-    await axios.get("http://localhost:8000/isIn", {
+    const res = await axios.get("http://localhost:8000/isIn", {
       withCredentials: true,
     });
-    return true;
+    return res;
   } catch (error) {
     return false;
   }

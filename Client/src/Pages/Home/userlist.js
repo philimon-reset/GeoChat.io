@@ -14,12 +14,12 @@ export default function UserList(props) {
         color="primary"
         startIcon={
           <Avatar
-            alt={props.data.displayName}
+            alt={props.data.userName}
             className={classes.purple}
           ></Avatar>
         }
       >
-        {props.data.displayName}
+        {props.data.userName}
       </Button>
     </div>
   );

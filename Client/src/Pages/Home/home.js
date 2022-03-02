@@ -1,6 +1,6 @@
 // external dependency imports
-import { React, useState, useEffect, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
+import { React, useState, useEffect, useReducer, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import date from "date-and-time";
 
 // File Imports
@@ -22,7 +22,7 @@ import {
 // socket import
 import socket from "../../services/socket";
 
-const reducer = (state, action) => {
+const reducer = (status, action) => {
   switch (action) {
     case "SUCCESS":
       return {
@@ -37,24 +37,29 @@ const reducer = (state, action) => {
         loading: false,
       };
     default:
-      return state;
+      return status;
   }
 };
 
 export default function Home(props) {
   const navigate = useNavigate();
+  const currentUser = useRef(null);
 
   // checksesh handler
-  const [state, dispatch] = useReducer(reducer, {
+  const [active, setactive] = useState(null);
+  const [status, dispatch] = useReducer(reducer, {
     error: null,
     hasSesh: null,
     loading: true,
   });
 
   useEffect(() => {
+    socket.connect();
     checkSesh().then((res) => {
       if (res) {
         dispatch("SUCCESS");
+        console.log(res)
+        currentUser.current = res;
       } else {
         dispatch("ERROR");
       }
@@ -64,34 +69,49 @@ export default function Home(props) {
   // appshell tools
   const [opened, setOpened] = useState(false);
   const theme = useMantineTheme();
-  const [active, setactive] = useState(null);
 
   const [pool, setpool] = useState([
-    { displayName: "Abel", socket: "Hello reciver" },
-    { displayName: "Abel", socket: "Hello reciver" },
+    { userName: "Abel", socket: "Hello reciver" },
+    { userName: "Abel", socket: "Hello reciver" },
   ]);
 
-  useEffect(() => {
-    // const pattern = date.compile('MMM D YYYY h:m:s A');
-    // const temp = {displayName: 'Abel', message: 'Hello reciver', now: date.format(new Date(), pattern)}
-    // setSender(s => [...s, temp])
-    socket.connect();
-  }, []);
+  // useEffect(() => {
+  //   // const pattern = date.compile('MMM D YYYY h:m:s A');
+  //   // const temp = {displayName: 'Abel', message: 'Hello reciver', now: date.format(new Date(), pattern)}
+  //   // setSender(s => [...s, temp])
+  // }, []);
 
-  const handleActive = (element) => {
-    setactive(element);
-  };
-  // socket.on("UsersList", (data) => {
-  //   setpool(data);
-  // })
 
+
+  // io stuff
+  socket.on("UsersList", (data) => {
+    setpool(data);
+  })
+
+  socket.on("NewUser", (NewUser) => {
+    setpool(pool.concat(NewUser));
+  })
+
+  // temporary hooooooot fix
+  socket.on("ChannelUpdate", ({ userName, newChannel }) => {
+    for(let user in pool) {
+      if (user.userName === userName) {
+        user.channel = newChannel
+      }
+    }
+  })
+
+  socket.on("UserDisconnect", ({ userName }) => {
+    setpool(pool.filter((usr) => usr.userName !== userName ))
+  })
+  // ---------------------------------------
   return (
     <div>
-      {state.loading ? (
+      {status.loading ? (
         <p>loading...</p>
       ) : (
         <div>
-          {state.hasSesh ? (
+          {status.hasSesh ? (
             <AppShell
               // navbarOffsetBreakpoint controls when navbar should no longer be offset with padding-left
               navbarOffsetBreakpoint="sm"
@@ -112,7 +132,7 @@ export default function Home(props) {
                   <Text>Active Users</Text>
                   {pool.map((element, index) => (
                     <UserList
-                      onClick={() => handleActive(element)}
+                      // onClick={setactive(element)}
                       key={index}
                       data={element}
                     />
@@ -143,9 +163,10 @@ export default function Home(props) {
                 </Header>
               }
             >
-              {active && (
-                <Dashboard to={active} currentUser={props.currentUser} />
-              )}
+              {/* {active &&
+                
+              } */}
+              <Dashboard currentUser={currentUser.current} />
             </AppShell>
           ) : (
             navigate("/")

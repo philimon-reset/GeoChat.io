@@ -1,6 +1,5 @@
 // external imports
 import React from "react";
-import ReactDOM from "react-dom";
 
 import { useState, useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
