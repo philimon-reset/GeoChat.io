@@ -1,13 +1,13 @@
 // external dependency imports
-import date from 'date-and-time';
+import date from "date-and-time";
 import { React, useRef, useState, useEffect } from "react";
 import { Paper } from "@material-ui/core";
 
 // File Imports
 import { TextInput } from "./Input";
 import { MessageLeft, MessageRight } from "./Message";
-import useStyles from "./styles/dashboard_S"
-import { getMessages } from '../../services/MessageService';
+import useStyles from "./styles/dashboard_S";
+import { getMessages } from "../../services/MessageService";
 
 //socket imports
 import socket from "../../services/socket";
@@ -15,16 +15,20 @@ import socket from "../../services/socket";
 export default function Dashboard(props) {
   const [input, setInput] = useState([]);
   const [output, setoutput] = useState([]);
-  const messagesEndRef = useRef(null)
+  const messagesEndRef = useRef(null);
   const { to, currentUser } = props;
 
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-  }
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   function handleSubmit(message) {
-    const pattern = date.compile('MMM D YYYY h:m:s A');
-    const compiledMsg = { room: to.channel, message, timestamp: date.format(new Date(), pattern)}
+    const pattern = date.compile("MMM D YYYY h:m:s A");
+    const compiledMsg = {
+      room: to.channel,
+      message,
+      timestamp: date.format(new Date(), pattern),
+    };
     const new_input = input.concat([compiledMsg]);
 
     socket.emit("PrivateMsgSent", compiledMsg);
@@ -33,43 +37,47 @@ export default function Dashboard(props) {
     setInput(new_input);
   }
 
-
   useEffect(scrollToBottom, [input]);
 
   useEffect(() => {
-    const fetchMessages = async() => {
+    const fetchMessages = async () => {
       const res = await getMessages({
         to: to.displayName,
-        from: currentUser
+        from: currentUser,
       });
       setoutput(res);
-    }
+    };
     fetchMessages();
   }, [to]);
 
   socket.on("PrivateMsgForward", (message) => {
-    setoutput(output.concat(message))
-  })
+    setoutput(output.concat(message));
+  });
 
   const classes = useStyles();
   return (
     <div className={classes.container}>
       <Paper id="style-1" className={classes.messagesBody}>
-        {output && output.map(x => (
-        (<MessageRight
-          message={x.message}
-          timestamp={x.timestamp}
-          photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
-          displayName={x.sender}
-          avatarDisp={false}
-        />) ? x.sender === currentUser: (<MessageLeft
-          message={x.message}
-          timestamp={x.timestamp}
-          photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
-          displayName={x.sender}
-          avatarDisp={false}
-        />)
-        ))}
+        {output &&
+          output.map((x) =>
+            <MessageRight
+              message={x.message}
+              timestamp={x.timestamp}
+              photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
+              displayName={x.sender}
+              avatarDisp={false}
+            /> ? (
+              x.sender === currentUser
+            ) : (
+              <MessageLeft
+                message={x.message}
+                timestamp={x.timestamp}
+                photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
+                displayName={x.sender}
+                avatarDisp={false}
+              />
+            )
+          )}
         <div ref={messagesEndRef} />
       </Paper>
       <Paper className={classes.paper}>

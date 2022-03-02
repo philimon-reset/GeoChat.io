@@ -5,7 +5,7 @@ import React from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { deepPurple } from "@material-ui/core/colors";
-import useStyles from './styles/message_S'
+import useStyles from "./styles/message_S";
 
 export const MessageLeft = (props) => {
   const message = props.message ? props.message : "no message";
@@ -42,17 +42,17 @@ export const MessageRight = (props) => {
   const photoURL = props.photoURL ? props.photoURL : "";
   return (
     <div className={classes.messageRowRight}>
-        <Avatar
-          alt={displayName}
-          className={classes.blue}
-          src={photoURL}
-        ></Avatar>
+      <Avatar
+        alt={displayName}
+        className={classes.blue}
+        src={photoURL}
+      ></Avatar>
       <div>
-      <div className={classes.displayNameRight}>{displayName}</div>
-      <div className={classes.messageGray}>
-        <p className={classes.messageContent}>{message}</p>
-        <div className={classes.messageTimeStampRight}>{timestamp}</div>
-      </div>
+        <div className={classes.displayNameRight}>{displayName}</div>
+        <div className={classes.messageGray}>
+          <p className={classes.messageContent}>{message}</p>
+          <div className={classes.messageTimeStampRight}>{timestamp}</div>
+        </div>
       </div>
     </div>
   );

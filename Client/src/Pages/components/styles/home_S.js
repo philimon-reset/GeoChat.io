@@ -4,23 +4,23 @@ import { lightGreen } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    UserNode : {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        margin: '20px',
-        borderRadius: '15px',
-        width: '90%',
-        color: '#'
+    UserNode: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      margin: "20px",
+      borderRadius: "15px",
+      width: "90%",
+      color: "#",
     },
     purple: {
       color: theme.palette.getContrastText(lightGreen[500]),
       backgroundColor: lightGreen[500],
       width: theme.spacing(7),
       height: theme.spacing(7),
-      margin: '1rem',
-      order: '0'
-    }
+      margin: "1rem",
+      order: "0",
+    },
   })
 );
 
