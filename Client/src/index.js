@@ -10,8 +10,6 @@ ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path="home" element={<Home />} />
-      <Route path="login" element={<Login />} />
-      <Route path="signup" element={<Register />} />
       <Route path="/" element={<App />} />
     </Routes>
   </BrowserRouter>,
