@@ -8,13 +8,21 @@ export default class IoController {
 
     // Initial Setup
     const { usrId } = socket.handshake.session;
-    console.log(usrId)
+    const { userName } = await usrStorage.findUniqUser({ _id: usrId });
     await SocketStore.set(socket.id, usrId);
+    await SocketStore.incrCount(usrId);
     socket.join(usrId);
 
     // Send Available Users
     const users = await SocketController.onUsersList(usrId);
     socket.emit("UsersList", users);
+
+    // notify new user
+    if(await SocketStore.getCount(usrId) == 1) {
+      socket.broadcast.emit("NewUser", {
+        channel: socket.id, userName 
+      });
+    }
 
     // Private message handler
     socket.on("PrivateMsgSent", async (data) => {
@@ -50,8 +58,22 @@ export default class IoController {
       console.log(`Reason: ${reason}`);
 
       const { usrId } = socket.handshake.session;
-      await SocketStore.del(socket.id);
       socket.leave(usrId);
+
+      await SocketStore.del(socket.id);
+      await SocketStore.decrCount(usrId);
+
+      if(await SocketStore.getCount(usrId)) {
+        const { userName } = await usrStorage.findUniqUser({ _id: usrId });
+        const newChannel = await SocketStore.getNearChannel(usrId);
+        socket.broadcast.emit("ChannelUpdate", {
+          userName, newChannel
+        })
+      } else {
+        socket.broadcast.emit("UserDisconnect", {
+          userName
+        })
+      }
     });
   }
 }

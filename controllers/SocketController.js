@@ -13,9 +13,10 @@ export default class SocketController {
     let res = [];
     const temp = [];
     for (let key in raw) {
-      const val = raw[key];
-      if (val && !(temp.includes(val)) && val !== currentUser) {
-        const usr = await usrStorage.findUniqUser({ _id: val })
+      const connectedUser = raw[key];
+      if (connectedUser && !(temp.includes(connectedUser)) && connectedUser !== currentUser) {
+        const usr = await usrStorage.findUniqUser({ _id: connectedUser })
+
         // socket id of user
         usr.channel = key
 
@@ -25,7 +26,7 @@ export default class SocketController {
         delete usr._id;
 
         res.push(usr);
-        temp.push(val);
+        temp.push(connectedUser);
       }
     }
     return res;

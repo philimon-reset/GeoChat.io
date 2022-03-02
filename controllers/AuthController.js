@@ -5,7 +5,8 @@ export default class AuthController {
 
   static async isIn(req, res) {
     if (req.session.usrId) {
-      res.status(200).end();
+      const usr = await usrStorage.findUniqUser({ _id: req.session.usrId })
+      res.status(200).json({ userName: usr.userName }).end();
     } else {
       res.status(400).end();
     }
