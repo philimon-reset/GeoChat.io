@@ -8,6 +8,7 @@ export default class IoController {
 
     // Initial Setup
     const { usrId } = socket.handshake.session;
+    console.log(usrId)
     await SocketStore.set(socket.id, usrId);
     socket.join(usrId);
 

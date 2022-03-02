@@ -1,11 +1,16 @@
+//external imports
+import { useNavigate } from "react-router-dom";
 import * as React from 'react';
+
+// Style imports
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import { Paper, Grid, Button } from "@material-ui/core";
 import Box from '@mui/material/Box';
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+
+// file
 import { Register, Login } from '../../Login/Entry'
 
 
@@ -114,7 +119,7 @@ function a11yProps(index) {
   };
 }
 
-function BasicTabs(props) {
+export function BasicTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -137,43 +142,4 @@ function BasicTabs(props) {
       </TabPanel>
     </Box>
   );
-}
-
-
-export function Landing(props) {
-  const classes = useStyles();
-  const [flip, setflip] = React.useState({opacity: 0});
-  const styles = {
-  };
-
-  const handleFlip = () => {
-    if (flip.opacity === 0) {
-      styles.opacity = 1
-      styles.transform = `translateX(61vw)`
-      setflip(styles)
-    }
-    else {
-      styles.opacity = 0
-      styles.transform = `translateX(-10%)`
-      styles.zIndex = 0
-      setflip(styles)
-    }
-  };
-
-  return(
-    // style={{position: 'relative', background: '#3e7cb1'}} for the grid container
-    <div style={{height: '100vh', background: '#BD8B9C'}}>
-    <Grid container>
-      <Grid item className={classes.containerL}>
-        <Button variant="contained" color="primary" className={classes.wrapBl} onClick={handleFlip}>Register</Button>
-      </Grid>
-      <Grid item className={classes.containerR} style={{...flip}}>
-        <Paper>
-          <BasicTabs/>
-        </Paper>
-      </Grid>
-    </Grid>
-    </div>
-
-  )
 }

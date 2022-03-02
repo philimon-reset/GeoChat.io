@@ -1,5 +1,5 @@
 // External imports
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,27 @@ import { useStyles } from '../components/styles/entry_S';
 import { logIn, checkSesh } from '../../services/AuthService';
 import { register } from '../../services/UserService';
 import Home from '../Home/home';
+
+
+const reducer = (state, action) => {
+  switch(action) {
+    case "SUCCESS":
+      return {
+        error: null,
+        hasSesh: true,
+        loading: false
+      }
+    case "ERROR":
+      return {
+        error: true,
+        hasSesh: false,
+        loading: false
+      }
+    default:
+      return state
+  }
+}
+
 
 export function Register() {
   let navigate = useNavigate();
@@ -37,9 +58,11 @@ export function Register() {
       pass
     });
     setIn(res)
+    if (res) {
+      navigate('/home', {replace: false})
+    }
   }
   const classes = useStyles();
-  if (!isIn){
   return (
     <div id="container">
       <form target = '_self' class={classes.center}>
@@ -50,24 +73,29 @@ export function Register() {
       </form>
     </div>
   );
-  } else {
-    return <Home currentUser={isIn}/>
-  }
 }
 
 export function Login() {
   let navigate = useNavigate();
   const [usrName, setUserName] = useState();
   const [pass, setPassword] = useState();
-  const [isIn, setIn] = useState(false);
+
+  const [ state, dispatch ] = useReducer(reducer, {
+    error: null,
+    hasSesh: null,
+    loading: true
+  })
 
   useEffect(() => {
     checkSesh().then((res) => {
       if (res) {
-        setIn(true);
+        dispatch("SUCCESS")
+      }
+      else {
+        dispatch("ERROR")
       }
     })
-  }, []);
+  }, [])
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -75,21 +103,22 @@ export function Login() {
       usrName,
       pass
     });
-    setIn(res);
+    if (res) {
+      navigate('/home', {replace: false})
+    }
   }
 
   const classes = useStyles();
-  if (!isIn){
   return (
     <div id="container">
-      <form target = '_self' class={classes.center}>
-          <Textfield className={classes.wrapText} label="Username" type="text" id="usrName" variant="outlined" color="primary" value = {usrName} onChange={e => setUserName(e.target.value)}/><br />
-          <Textfield className={classes.wrapText} label="Password" type="password" id="pass" variant="outlined" color="primary" value = {pass} onChange={e => setPassword(e.target.value)}/><br />
-          <Button type="submit" variant="contained" color="primary" className={classes.wrapB}  onClick={handleSubmit}>Login</Button>
-      </form>
+      {state.loading ? <p>loading...</p>:
+      <>
+          <form target = '_self' class={classes.center}>
+              <Textfield className={classes.wrapText} label="Username" type="text" id="usrName" variant="outlined" color="primary" value = {usrName} onChange={e => setUserName(e.target.value)}/><br />
+              <Textfield className={classes.wrapText} label="Password" type="password" id="pass" variant="outlined" color="primary" value = {pass} onChange={e => setPassword(e.target.value)}/><br />
+              <Button type="submit" variant="contained" color="primary" className={classes.wrapB}  onClick={handleSubmit}>Login</Button>
+          </form>
+      </>}
     </div>
   );
-  } else {
-    return <Home currentUser={isIn}/>
-  }
 }
