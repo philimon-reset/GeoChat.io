@@ -7,6 +7,7 @@ import { Paper } from "@material-ui/core";
 import { TextInput } from "./Input";
 import { MessageLeft, MessageRight } from "./Message";
 import useStyles from "./styles/dashboard_S"
+import { getMessages } from '../../services/MessageService';
 
 //socket imports
 import socket from "../../services/socket";
@@ -15,6 +16,7 @@ export default function Dashboard(props) {
   const [input, setInput] = useState([]);
   const [output, setoutput] = useState([]);
   const messagesEndRef = useRef(null)
+  const { to, currentUser } = props;
 
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
@@ -34,13 +36,17 @@ export default function Dashboard(props) {
 
   useEffect(scrollToBottom, [input]);
 
-  // useEffect(() => {
-  //   props.section && setoutput(
-  //     output => [
-  //       ...output,
-  //       props.section.pop()
-  //     ]);
-  // }, [props.section]);
+  useEffect(() => {
+    const fetchMessages = async() => {
+      const res = await getMessages({
+        to,
+        currentUser
+      });
+      setoutput(res);
+    }
+    fetchMessages();
+  }, [props.to]);
+
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -73,20 +79,21 @@ export default function Dashboard(props) {
             displayName="message3"
             avatarDisp={false}
           /> */}
-        {output.message && output.map(x => (<MessageLeft
+        {output && output.map(x => (
+        (<MessageRight
           message={x.message}
           timestamp={x.timestamp}
           photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
-          displayName={x.displayName}
+          displayName={x.sender}
           avatarDisp={false}
-        />))}
-        {input.map(x => (<MessageRight
+        />) ? x.sender === currentUser: (<MessageLeft
           message={x.message}
           timestamp={x.timestamp}
           photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
-          displayName="Philimon"
+          displayName={x.sender}
           avatarDisp={false}
-        />))}
+        />)
+        ))}
         <div ref={messagesEndRef} />
       </Paper>
       <Paper className={classes.paper}>

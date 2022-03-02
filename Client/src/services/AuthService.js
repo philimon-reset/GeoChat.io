@@ -2,10 +2,10 @@ import axios from "axios";
 
 export async function logIn(creds) {
   try{
-    await axios.post("http://localhost:8000/login", creds, {
+    const res = await axios.post("http://localhost:8000/login", creds, {
       withCredentials: true
     });
-    return true;
+    return res;
   } catch(err) {
     return false;
   }

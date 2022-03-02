@@ -1,5 +1,5 @@
 // external dependency imports
-import {React, useState, useEffect} from "react";
+import {React, useState, useEffect, useRef} from "react";
 import { Navigate } from "react-router-dom";
 import date from 'date-and-time';
 
@@ -17,7 +17,6 @@ import socket from "../../services/socket";
 
 export default function Home(props) {
   const [opened, setOpened] = useState(false);
-  const [sender, setSender] = useState([]);
   const theme = useMantineTheme();
   const [active, setactive] = useState(null);
   const [pool, setpool] = useState([{displayName: 'Abel', socket: 'Hello reciver'}, {displayName: 'Abel', socket: 'Hello reciver'}]);
@@ -29,8 +28,8 @@ export default function Home(props) {
     socket.connect();
   }, []);
 
-  const handleActive = (data) => {
-    setactive(data)
+  const handleActive = (element) => {
+    setactive(element)
   };
   socket.on("UsersList", (data) => {
     setpool(data);
@@ -76,7 +75,7 @@ export default function Home(props) {
         </Header>
       }
     >
-      {active && <Dashboard chatData={active} section={sender}/>}
+      {active && <Dashboard to={active} currentUser={props.currentUser}/>}
     </AppShell>
   );
 }

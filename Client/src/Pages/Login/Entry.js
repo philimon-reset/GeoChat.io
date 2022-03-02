@@ -51,7 +51,7 @@ export function Register() {
     </div>
   );
   } else {
-    return <Home/>
+    return <Home currentUser={isIn}/>
   }
 }
 
@@ -90,6 +90,6 @@ export function Login() {
     </div>
   );
   } else {
-    return <Home/>
+    return <Home currentUser={isIn}/>
   }
 }
