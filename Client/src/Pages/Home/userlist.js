@@ -9,6 +9,7 @@ export default function UserList(props) {
   return (
     <div>
       <Button
+      onClick={() => props.handleA(props.data.userName)}
         className={classes.UserNode}
         variant="contained"
         color="primary"

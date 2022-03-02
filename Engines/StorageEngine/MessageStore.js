@@ -35,7 +35,11 @@ export class MessageStore extends BasicStore {
   async getMessages(from, to) {
 
     const chat = await this.msgCollection.findOne({ "$or" : [{ chatName: `${from}|${to}` }, { chatName: `${to}|${from}` }] });
-    return chat.content;
+    if(chat) {
+      return chat.content;
+    } else {
+      return [];
+    }
   }
 }
 

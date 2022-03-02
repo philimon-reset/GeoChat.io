@@ -18,6 +18,7 @@ export default function Dashboard(props) {
   const messagesEndRef = useRef(null);
   const { to, currentUser } = props;
 
+
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -58,7 +59,7 @@ export default function Dashboard(props) {
   return (
     <div className={classes.container}>
       <Paper id="style-1" className={classes.messagesBody}>
-        {output &&
+        {output.length &&
           output.map((x) =>
             <MessageRight
               message={x.message}

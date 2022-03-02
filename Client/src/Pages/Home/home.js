@@ -58,13 +58,19 @@ export default function Home(props) {
     checkSesh().then((res) => {
       if (res) {
         dispatch("SUCCESS");
-        console.log(res)
-        currentUser.current = res;
+        currentUser.current = res.data.userName;
       } else {
         dispatch("ERROR");
       }
+      return () => {
+        console.log("cleaned up");
+      };
     });
   }, []);
+
+  const handleClick = (element) => {
+    setactive(element)
+  }
 
   // appshell tools
   const [opened, setOpened] = useState(false);
@@ -105,6 +111,7 @@ export default function Home(props) {
     setpool(pool.filter((usr) => usr.userName !== userName ))
   })
   // ---------------------------------------
+  console.log(active)
   return (
     <div>
       {status.loading ? (
@@ -132,7 +139,7 @@ export default function Home(props) {
                   <Text>Active Users</Text>
                   {pool.map((element, index) => (
                     <UserList
-                      // onClick={setactive(element)}
+                      handleA={(i) => handleClick(i)}
                       key={index}
                       data={element}
                     />
@@ -163,10 +170,7 @@ export default function Home(props) {
                 </Header>
               }
             >
-              {/* {active &&
-                
-              } */}
-              <Dashboard currentUser={currentUser.current} />
+            {active && <Dashboard to={active} currentUser={currentUser.current} />}
             </AppShell>
           ) : (
             navigate("/")
