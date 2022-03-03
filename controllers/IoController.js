@@ -26,19 +26,16 @@ export default class IoController {
 
     // Private message handler
     socket.on("PrivateMsgSent", async (data) => {
-      const { room, message, timestamp } = data;
+      const { room, message, timestamp, sender } = data;
 
       // reciever address
       const reciever = await SocketStore.get(room);
-
-      // sender address
-      let sender = await SocketStore.get(socket.id);
 
       // Save Message to DB
       await SocketController.onMessage(sender, reciever, {message, timestamp});
 
       sender = (await usrStorage.findUniqUser({ _id: sender }));
-      const ForwardMessage = { sender: sender.userName, message, timestamp };
+      const ForwardMessage = { sender , message, timestamp };
 
       // Send message to reciever
       socket.to(reciever).emit("PrivateMsgForward", ForwardMessage);

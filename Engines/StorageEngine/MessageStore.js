@@ -11,8 +11,7 @@ export class MessageStore extends BasicStore {
 
   async newMessage(sender, reciever, message) {
 
-    console.log(sender, reciever, message);
-    const from = (await usrStorage.findUniqUser({ _id: sender })).userName;
+    const from = sender;
     const to = (await usrStorage.findUniqUser({ _id: reciever })).userName;
     message.sender = from;
 
