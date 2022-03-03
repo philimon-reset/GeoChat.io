@@ -2,9 +2,7 @@
 import React from "react";
 
 // style imports
-import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import { deepPurple } from "@material-ui/core/colors";
 import useStyles from "./styles/message_S";
 
 export const MessageLeft = (props) => {

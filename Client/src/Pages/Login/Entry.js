@@ -27,7 +27,6 @@ export function Register() {
       pass,
     });
     if (res.data.usrName) {
-      alert("hee");
       navigate("/home", { state: res }, { replace: false });
     } else if (res.ErrorCode === "USERNAME") {
       setLoginU("UserName Taken");
