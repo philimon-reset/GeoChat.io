@@ -29,19 +29,19 @@ export default class IoController {
       const { room, message, timestamp } = data;
 
       // reciever address
-      room = await SocketStore.get(room);
+      const reciever = await SocketStore.get(room);
 
       // sender address
       let sender = await SocketStore.get(socket.id);
 
       // Save Message to DB
-      await SocketController.onMessage(sender, room, {message, timestamp});
+      await SocketController.onMessage(sender, reciever, {message, timestamp});
 
-      sender = await usrStorage.findUniqUser({ _id: sender }).userName;
-      const ForwardMessage = { sender, message, timestamp };
+      sender = (await usrStorage.findUniqUser({ _id: sender }));
+      const ForwardMessage = { sender: sender.userName, message, timestamp };
 
       // Send message to reciever
-      socket.to(room).emit("PrivateMsgForward", ForwardMessage);
+      socket.to(reciever).emit("PrivateMsgForward", ForwardMessage);
     });
 
     // testing purposes

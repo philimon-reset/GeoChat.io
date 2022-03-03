@@ -9,10 +9,11 @@ export class MessageStore extends BasicStore {
     this.msgCollection = MongoInstance.db().collection('messages');
   }
 
-  async newMessage(from, to, message) {
+  async newMessage(sender, reciever, message) {
 
-    from = (await usrStorage.findUniqUser({ _id: from })).userName;
-    to = (await usrStorage.findUniqUser({ _id: to })).userName;
+    console.log(sender, reciever, message);
+    const from = (await usrStorage.findUniqUser({ _id: sender })).userName;
+    const to = (await usrStorage.findUniqUser({ _id: reciever })).userName;
     message.sender = from;
 
     console.log(from, to);
