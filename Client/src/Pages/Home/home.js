@@ -111,7 +111,6 @@ export default function Home(props) {
     setpool(pool.filter((usr) => usr.userName !== userName ))
   })
   // ---------------------------------------
-  console.log(active)
   return (
     <div>
       {status.loading ? (
@@ -139,6 +138,7 @@ export default function Home(props) {
                   <Text>Active Users</Text>
                   {pool.map((element, index) => (
                     <UserList
+                      isActive={active.userName === element.userName ? true : false}
                       handleA={(i) => handleClick(i)}
                       key={index}
                       data={element}
@@ -165,7 +165,7 @@ export default function Home(props) {
                         mr="xl"
                       />
                     </MediaQuery>
-                    <Text>Application header</Text>
+                    <Text>{currentUser.current}</Text>
                   </div>
                 </Header>
               }

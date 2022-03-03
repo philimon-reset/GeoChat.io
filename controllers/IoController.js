@@ -38,6 +38,7 @@ export default class IoController {
       const ForwardMessage = { sender , message, timestamp };
 
       // Send message to reciever
+      console.log("ForwardMessage", ForwardMessage)
       socket.to(reciever).emit("PrivateMsgForward", ForwardMessage);
     });
 
