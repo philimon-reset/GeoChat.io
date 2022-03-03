@@ -52,12 +52,6 @@ export default function Dashboard(props) {
     fetchMessages();
   }, [to]);
 
-  socket.on("PrivateMsgForward", (message) => {
-    if (output) {
-    setoutput([...output, message]);
-    }
-  });
-
   const classes = useStyles();
   return (
     <div className={classes.container}>

@@ -13,6 +13,14 @@ const useStyles = makeStyles((theme) =>
       width: "90%",
       color: "#",
     },
+    notification: {
+      borderRadius: "50%",
+      backgroundColor: "red",
+      width: "1rem",
+      height: "1rem",
+      position: "absolute",
+      right: "1rem"
+    },
     purple: {
       color: theme.palette.getContrastText(lightGreen[500]),
       backgroundColor: lightGreen[500],

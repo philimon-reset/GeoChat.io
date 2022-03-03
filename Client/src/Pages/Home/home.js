@@ -5,6 +5,7 @@ import date from "date-and-time";
 
 // File Imports
 import Dashboard from "../components/Dashboard";
+import Logout from "../components/Logout"
 import UserList from "./userlist";
 import { checkSesh } from "../../services/AuthService";
 
@@ -45,8 +46,11 @@ export default function Home(props) {
   const navigate = useNavigate();
   const currentUser = useRef(null);
 
+
+  const [active, setactive] = useState(localStorage.getItem("active"));
+  // const [notify, setnotify] = useState(null);
+
   // checksesh handler
-  const [active, setactive] = useState(null);
   const [status, dispatch] = useReducer(reducer, {
     error: null,
     hasSesh: null,
@@ -69,7 +73,11 @@ export default function Home(props) {
   }, []);
 
   const handleClick = (element) => {
+    if (element.hasNotification) {
+      delete element.hasNotification;
+    }
     setactive(element)
+    localStorage.setItem(element);
   }
 
   // appshell tools
@@ -92,11 +100,28 @@ export default function Home(props) {
   // io stuff
   socket.on("UsersList", (data) => {
     setpool(data);
+
   })
 
   socket.on("NewUser", (NewUser) => {
     setpool(pool.concat(NewUser));
   })
+
+  socket.on("PrivateMsgForward", (message) => {
+    console.log(message, "not")
+    if (active?.userName === message.sender) {
+      setactive(active);
+    }
+    else {
+      setpool(pool.map((x) => {
+        if (x.userName === message.sender) {
+          x.hasNotification = true;
+        }
+        return x
+      }));
+    }
+  });
+
 
   // temporary hooooooot fix
   socket.on("ChannelUpdate", ({ userName, newChannel }) => {
@@ -138,7 +163,8 @@ export default function Home(props) {
                   <Text>Active Users</Text>
                   {pool.map((element, index) => (
                     <UserList
-                      isActive={active.userName === element.userName ? true : false}
+                      isActive={active?.userName === element.userName ? true : false}
+                      newMessage={element.hasNotification}
                       handleA={(i) => handleClick(i)}
                       key={index}
                       data={element}
@@ -154,6 +180,7 @@ export default function Home(props) {
                       display: "flex",
                       alignItems: "center",
                       height: "100%",
+                      justifyContent: "space-between"
                     }}
                   >
                     <MediaQuery largerThan="sm" styles={{ display: "none" }}>
@@ -162,10 +189,11 @@ export default function Home(props) {
                         onClick={() => setOpened((o) => !o)}
                         size="sm"
                         color={theme.colors.gray[6]}
-                        mr="xl"
+                        mr="lg"
                       />
                     </MediaQuery>
-                    <Text>{currentUser.current}</Text>
+                      <Text>{currentUser.current}</Text>
+                      <Logout socket={socket}/>
                   </div>
                 </Header>
               }

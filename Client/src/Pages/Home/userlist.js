@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { Avatar, Button } from "@material-ui/core";
 
 //file imports
@@ -21,6 +21,7 @@ export default function UserList(props) {
         }
       >
         {props.data.userName}
+        {props.newMessage && <div className={classes.notification}></div>}
       </Button>
     </div>
   );
