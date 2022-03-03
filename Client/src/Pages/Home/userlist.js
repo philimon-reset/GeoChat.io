@@ -9,10 +9,10 @@ export default function UserList(props) {
   return (
     <div>
       <Button
-      onClick={() => props.handleA(props.data.userName)}
+      onClick={() => props.handleA(props.data)}
         className={classes.UserNode}
         variant="contained"
-        color="primary"
+        color={props.isActive ? "secondary" : "primary" }
         startIcon={
           <Avatar
             alt={props.data.userName}

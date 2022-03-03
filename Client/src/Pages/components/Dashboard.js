@@ -13,8 +13,7 @@ import { getMessages } from "../../services/MessageService";
 import socket from "../../services/socket";
 
 export default function Dashboard(props) {
-  const [input, setInput] = useState([]);
-  const [output, setoutput] = useState([]);
+  const [output, setoutput] = useState(null);
   const messagesEndRef = useRef(null);
   const { to, currentUser } = props;
 
@@ -29,48 +28,54 @@ export default function Dashboard(props) {
       room: to.channel,
       message,
       timestamp: date.format(new Date(), pattern),
+      sender: currentUser
     };
-    const new_input = input.concat([compiledMsg]);
 
     socket.emit("PrivateMsgSent", compiledMsg);
-    console.log("sending", new_input[input.length - 1]);
+    console.log("sending",compiledMsg);
 
-    setInput(new_input);
+    if (output) {
+      setoutput([...output, compiledMsg]);
+      }
   }
 
-  useEffect(scrollToBottom, [input]);
+  useEffect(scrollToBottom, [output]);
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await getMessages({
-        to: to.displayName,
-        from: currentUser,
-      });
-      setoutput(res);
+      const res = await getMessages(
+        to.userName,
+        currentUser
+      );
+      setoutput(res.data.messages);
     };
     fetchMessages();
   }, [to]);
 
   socket.on("PrivateMsgForward", (message) => {
-    setoutput(output.concat(message));
+    if (output) {
+    setoutput([...output, message]);
+    }
   });
 
   const classes = useStyles();
   return (
     <div className={classes.container}>
       <Paper id="style-1" className={classes.messagesBody}>
-        {output.length &&
-          output.map((x) =>
-            <MessageRight
-              message={x.message}
-              timestamp={x.timestamp}
-              photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
-              displayName={x.sender}
-              avatarDisp={false}
-            /> ? (
-              x.sender === currentUser
-            ) : (
+        {output &&
+          output.map((x, inx) =>
+          (
+            x.sender === currentUser
+          ) ? <MessageRight
+          key={inx}
+          message={x.message}
+          timestamp={x.timestamp}
+          photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
+          displayName={x.sender}
+          avatarDisp={false}
+        /> : (
               <MessageLeft
+                key={inx}
                 message={x.message}
                 timestamp={x.timestamp}
                 photoURL="https://lh3.googleusercontent.com/a-/au=s96-c"
