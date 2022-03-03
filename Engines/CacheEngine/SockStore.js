@@ -5,6 +5,7 @@ const SocketStore = {
   hashSet: "sockMap",
   countSet: "sockCount",
 
+  // map set
   async get(key) {
     return RedisClient.hget(this.hashSet, key);
   },
@@ -21,6 +22,16 @@ const SocketStore = {
     return RedisClient.hgetall(this.hashSet);
   },
 
+  async delAllonId(key) {
+    const raw = await this.getAll();
+    for (let k in raw) {
+      if (raw[k] == key) {
+        await this.del(key);
+      }
+    }
+  },
+
+  // count set
   async incrCount(key) {
     if(await RedisClient.hget(this.countSet, key)) {
       await RedisClient.hincrby(this.countSet, key, 1);

@@ -31,4 +31,8 @@ export default class SocketController {
     }
     return res;
   }
+
+  static async onDisconnect(currentUser) {
+    await SocketStore.delAllonId(currentUser);
+  }
 }

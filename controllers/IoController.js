@@ -1,6 +1,6 @@
-import SocketController from './SocketController';
-import SocketStore from '../Engines/CacheEngine/SockStore';
-import usrStorage from '../Engines/StorageEngine/UserStore';
+import SocketController from "./SocketController";
+import SocketStore from "../Engines/CacheEngine/SockStore";
+import usrStorage from "../Engines/StorageEngine/UserStore";
 
 export default class IoController {
   static async onConnection(socket) {
@@ -18,9 +18,10 @@ export default class IoController {
     socket.emit("UsersList", users);
 
     // notify new user
-    if(await SocketStore.getCount(usrId) == 1) {
+    if ((await SocketStore.getCount(usrId)) == 1) {
       socket.broadcast.emit("NewUser", {
-        channel: socket.id, userName 
+        channel: socket.id,
+        userName,
       });
     }
 
@@ -32,13 +33,16 @@ export default class IoController {
       const reciever = await SocketStore.get(room);
 
       // Save Message to DB
-      await SocketController.onMessage(sender, reciever, {message, timestamp});
+      await SocketController.onMessage(sender, reciever, {
+        message,
+        timestamp,
+      });
 
-      sender = (await usrStorage.findUniqUser({ _id: sender }));
-      const ForwardMessage = { sender , message, timestamp };
+      sender = await usrStorage.findUniqUser({ _id: sender });
+      const ForwardMessage = { sender, message, timestamp };
 
       // Send message to reciever
-      console.log("ForwardMessage", ForwardMessage)
+      console.log("ForwardMessage", ForwardMessage);
       socket.to(reciever).emit("PrivateMsgForward", ForwardMessage);
     });
 
@@ -47,8 +51,8 @@ export default class IoController {
       console.log(data);
       const { message, timestamp } = data;
       const sender = await SocketStore.get(socket.id);
-      SocketController.onMessage(sender, sender, {message, timestamp});
-    })
+      SocketController.onMessage(sender, sender, { message, timestamp });
+    });
 
     // Disconnection Handler
     socket.on("disconnect", async (reason) => {
@@ -58,19 +62,27 @@ export default class IoController {
       const { usrId } = socket.handshake.session;
       socket.leave(usrId);
 
-      await SocketStore.del(socket.id);
-      await SocketStore.decrCount(usrId);
-
-      if(await SocketStore.getCount(usrId)) {
-        const { userName } = await usrStorage.findUniqUser({ _id: usrId });
-        const newChannel = await SocketStore.getNearChannel(usrId);
-        socket.broadcast.emit("ChannelUpdate", {
-          userName, newChannel
-        })
-      } else {
+      if (reason === "client namespace disconnect") {
+        await SocketController.onDisconnect(usrId);
         socket.broadcast.emit("UserDisconnect", {
-          userName
-        })
+          userName,
+        });
+      } else {
+        await SocketStore.del(socket.id);
+        await SocketStore.decrCount(usrId);
+
+        if (await SocketStore.getCount(usrId)) {
+          const { userName } = await usrStorage.findUniqUser({ _id: usrId });
+          const newChannel = await SocketStore.getNearChannel(usrId);
+          socket.broadcast.emit("ChannelUpdate", {
+            userName,
+            newChannel,
+          });
+        } else {
+          socket.broadcast.emit("UserDisconnect", {
+            userName,
+          });
+        }
       }
     });
   }
