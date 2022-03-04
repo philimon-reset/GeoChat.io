@@ -33,12 +33,12 @@ export default class IoController {
       const reciever = await SocketStore.get(room);
 
       // Save Message to DB
+      console.log(sender)
       await SocketController.onMessage(sender, reciever, {
         message,
         timestamp,
       });
 
-      sender = await usrStorage.findUniqUser({ _id: sender });
       const ForwardMessage = { sender, message, timestamp };
 
       // Send message to reciever
