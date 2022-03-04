@@ -47,7 +47,7 @@ export default function Home(props) {
   const currentUser = useRef(null);
 
 
-  const [active, setactive] = useState(localStorage.getItem("active"));
+  const [active, setactive] = useState(null);
   // const [notify, setnotify] = useState(null);
 
   // checksesh handler
@@ -77,7 +77,6 @@ export default function Home(props) {
       delete element.hasNotification;
     }
     setactive(element)
-    localStorage.setItem(element);
   }
 
   // appshell tools

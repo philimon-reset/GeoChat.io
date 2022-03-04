@@ -96,8 +96,8 @@ export function Register() {
         <br />
         <Textfield
           className={classes.wrapText}
+          type="password"
           label="Password"
-          type="text"
           id="pass"
           variant="outlined"
           color="primary"
@@ -170,9 +170,9 @@ export function Login() {
         {loginE ? (
           <Textfield
             className={classes.wrapText}
+            type="password"
             error
             label="error"
-            type="text"
             id="pass"
             variant="outlined"
             color="primary"
@@ -182,8 +182,8 @@ export function Login() {
         ) : (
           <Textfield
             className={classes.wrapText}
+            type="password"
             label="Password"
-            type="text"
             id="pass"
             variant="outlined"
             color="primary"
