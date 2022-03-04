@@ -1,5 +1,4 @@
 //external imports
-import { useNavigate } from "react-router-dom";
 import * as React from "react";
 
 // Style imports
@@ -15,6 +14,18 @@ import { Register, Login } from "../../Login/Entry";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
+    root: {
+      color: "white",
+      "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+        borderColor: "green"
+      },
+      "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+        borderColor: "red"
+      },
+      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "purple"
+      }
+    },
     paper: {
       width: "100%",
       height: "6rem",
@@ -24,7 +35,7 @@ export const useStyles = makeStyles((theme) =>
     },
     containerL: {
       // float: 'left',
-      background: "#87f1ff",
+      background: "#2a363b",
       height: "95%",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
@@ -36,10 +47,11 @@ export const useStyles = makeStyles((theme) =>
     },
     containerR: {
       // float: 'left',
+      backgroundColor: '#2A363B',
+      color: '#fff',
       height: "60vh",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
-      background: "#dbe4ee",
       width: "30vw",
       position: "absolute",
       margin: "10rem",
@@ -64,6 +76,8 @@ export const useStyles = makeStyles((theme) =>
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
     },
     wrapBl: {
+      color: "#fff",
+      backgroundColor: "#303f9f",
       position: "absolute",
       right: 120,
       bottom: "20%",
@@ -71,6 +85,10 @@ export const useStyles = makeStyles((theme) =>
       width: "40%",
       margin: "1rem",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
+      '&:hover': {
+        color: "#303f9f",
+        backgroundColor: '#fff'
+      }
     },
     messagesBody: {
       width: "calc( 100% - 20px )",
@@ -138,8 +156,8 @@ export function BasicTabs(props) {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Login" {...a11yProps(0)} />
-          <Tab label="Register" {...a11yProps(1)} />
+          <Tab label="Login" {...a11yProps(0)} style={{ color: '#fff' }}/>
+          <Tab label="Register" {...a11yProps(1)} style={{ color: '#fff' }}/>
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
