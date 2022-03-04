@@ -58,44 +58,41 @@ function App() {
 
   // style handlers
   const classes = useStyles();
-  const [flip, setflip] = useState({ opacity: 0 });
+  const [flip, setflip] = useState({ transform : `translateX(-10%)` });
   const styles = {};
 
   const handleFlip = () => {
-    if (flip.opacity === 0) {
-      styles.opacity = 1;
+    if (flip.transform === `translateX(-10%)`) {
       styles.transform = `translateX(61vw)`;
       setflip(styles);
     } else {
-      styles.opacity = 0;
       styles.transform = `translateX(-10%)`;
-      styles.zIndex = 0;
       setflip(styles);
     }
   };
 
   return (
     // style={{position: 'relative', background: '#3e7cb1'}} for the grid container
-    <div>
+    <>
       {state.loading ? (
         <p>loading.....</p>
       ) : (
-        <div>
+        <>
           {state.hasSesh ? (
             navigate("home")
           ) : (
             <div style={{ height: "100vh", background: "#2a363b", backgroundImage: svg.img  }}>
               <Grid container>
-                <Grid item className={classes.containerL}>
+                <Grid className={classes.containerL}>
                   <Button
                     variant="contained"
                     className={classes.wrapBl}
                     onClick={handleFlip}
                   >
-                    Register
+                    Get Started
                   </Button>
                 </Grid>
-                <Grid item className={classes.containerR} style={{ ...flip }}>
+                <Grid className={classes.containerR} style={{ ...flip }}>
                   <Paper>
                     <BasicTabs />
                   </Paper>
@@ -103,9 +100,9 @@ function App() {
               </Grid>
             </div>
           )}
-        </div>
+        </>
       )}
-    </div>
+    </>
   );
 }
 

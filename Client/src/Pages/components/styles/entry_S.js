@@ -35,12 +35,13 @@ export const useStyles = makeStyles((theme) =>
     },
     containerL: {
       // float: 'left',
-      background: "#2a363b",
-      height: "95%",
+      background: "#87f1ff",
+      height: "85%",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
-      width: "75vw",
+      width: "70%",
       position: "absolute",
+      top: "6%",
       zIndex: 10,
       margin: "1.5rem",
       color: "#582B11",
@@ -54,13 +55,14 @@ export const useStyles = makeStyles((theme) =>
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
       width: "30vw",
       position: "absolute",
+      top: "5%",
       margin: "10rem",
-      zIndex: 20,
+      zIndex: 0,
       transition: "all 1s",
     },
     center: {
       margin: "auto",
-      width: "60%",
+      width: "60%", 
       padding: "20px",
     },
     wrapText: {
@@ -68,27 +70,30 @@ export const useStyles = makeStyles((theme) =>
       width: "100%",
     },
     wrapB: {
-      position: "absolute",
-      right: 100,
-      padding: ".8rem",
-      width: "25%",
-      margin: "1rem",
+      padding: "1rem",
+      width: "100%",
+      marginLeft: ".3rem",
+      margin: '1rem',
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
     },
     wrapBl: {
       color: "#fff",
       backgroundColor: "#303f9f",
       position: "absolute",
-      right: 120,
-      bottom: "20%",
+      left: '20%',
+      bottom: "3%",
       padding: ".8rem",
-      width: "40%",
+      width: "60%",
       margin: "1rem",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
+<<<<<<< HEAD
       '&:hover': {
         color: "#303f9f",
         backgroundColor: '#fff'
       }
+=======
+      borderRadius: '15px',
+>>>>>>> a3764228b240ae9ad42a8e4b20c5d3f48ad354fd
     },
     messagesBody: {
       width: "calc( 100% - 20px )",
