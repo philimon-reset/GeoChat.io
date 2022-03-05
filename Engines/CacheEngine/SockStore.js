@@ -1,6 +1,5 @@
 import RedisClient from "./BasicStore";
 
-
 const SocketStore = {
   hashSet: "sockMap",
   countSet: "sockCount",
@@ -33,7 +32,7 @@ const SocketStore = {
 
   // count set
   async incrCount(key) {
-    if(await RedisClient.hget(this.countSet, key)) {
+    if (await RedisClient.hget(this.countSet, key)) {
       await RedisClient.hincrby(this.countSet, key, 1);
     } else {
       await RedisClient.hset(this.countSet, key, 1);
@@ -56,7 +55,7 @@ const SocketStore = {
       }
     }
     return null;
-  }
-}
+  },
+};
 
 export default SocketStore;

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) =>
       width: "1rem",
       height: "1rem",
       position: "absolute",
-      right: "1rem"
+      right: "1rem",
     },
     purple: {
       color: theme.palette.getContrastText(lightGreen[500]),

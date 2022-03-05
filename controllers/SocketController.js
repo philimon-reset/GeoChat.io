@@ -3,7 +3,6 @@ import SocketStore from "../Engines/CacheEngine/SockStore";
 import usrStorage from "../Engines/StorageEngine/UserStore";
 
 export default class SocketController {
-
   static async onMessage(sender, reciever, data) {
     await msgStorage.newMessage(sender, reciever, data);
   }
@@ -14,11 +13,15 @@ export default class SocketController {
     const temp = [];
     for (let key in raw) {
       const connectedUser = raw[key];
-      if (connectedUser && !(temp.includes(connectedUser)) && connectedUser !== currentUser) {
-        const usr = await usrStorage.findUniqUser({ _id: connectedUser })
+      if (
+        connectedUser &&
+        !temp.includes(connectedUser) &&
+        connectedUser !== currentUser
+      ) {
+        const usr = await usrStorage.findUniqUser({ _id: connectedUser });
 
         // socket id of user
-        usr.channel = key
+        usr.channel = key;
 
         // clean up
         delete usr.pass;

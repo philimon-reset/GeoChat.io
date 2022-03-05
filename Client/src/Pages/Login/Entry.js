@@ -62,8 +62,6 @@ export function Register() {
             type="text"
             id="usrName"
             variant="outlined"
-            InputLabelProps={{className: classes.input}}
-            InputProps={{className: classes.input}}
             value={usrName}
             onChange={(e) => setUserName(e.target.value)}
           />
@@ -89,8 +87,6 @@ export function Register() {
             id="pass"
             placeholder="test@test.com"
             variant="outlined"
-            InputLabelProps={{className: classes.input}}
-            InputProps={{className: classes.input}}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -102,8 +98,6 @@ export function Register() {
           label="Password"
           id="pass"
           variant="outlined"
-          InputProps={{className: classes.input}}
-          InputLabelProps={{className: classes.input}}
           value={pass}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -164,8 +158,6 @@ export function Login() {
             type="text"
             id="usrName"
             variant="outlined"
-            InputLabelProps={{className: classes.input}}
-            InputProps={{className: classes.input}}
             value={usrName}
             onChange={(e) => setUserName(e.target.value)}
           />
@@ -190,9 +182,6 @@ export function Login() {
             label="Password"
             id="pass"
             variant="outlined"
-            className={classes.root}
-            // InputLabelProps={{className: classes.root}}
-            // InputProps={{className: classes.root}}
             value={pass}
             onChange={(e) => setPassword(e.target.value)}
           />

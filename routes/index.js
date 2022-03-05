@@ -1,9 +1,9 @@
 // express imports
-import express, { Router } from 'express';
+import express, { Router } from "express";
 import session from "express-session";
 import sessionHandler from "express-sessions";
 import bodyParser from "body-parser";
-import cors from 'cors';
+import cors from "cors";
 
 // redis
 import Redis from "ioredis";
@@ -12,9 +12,9 @@ import Redis from "ioredis";
 import { env } from "process";
 
 // Controllers
-import AuthController from '../controllers/AuthController';
-import UserController from '../controllers/UserController';
-import MessageController from '../controllers/MessageController';
+import AuthController from "../controllers/AuthController";
+import UserController from "../controllers/UserController";
+import MessageController from "../controllers/MessageController";
 
 // ENV vars
 const SECRET = env.chatAppSecret || "IHAVENOSECRETS";
@@ -26,10 +26,12 @@ const router = Router();
 const redisClient = new Redis();
 router.use(express.json());
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+router.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 export const session_config = session({
   secret: SECRET,
@@ -46,7 +48,7 @@ router.use(session_config);
 
 // Routes
 router.get("/isIn", AuthController.isIn);
-router.get('/logout', AuthController.logout);
+router.get("/logout", AuthController.logout);
 router.post("/login", AuthController.login);
 router.post("/signup", UserController.newUser);
 router.post("/getMessages", MessageController.getMessages);

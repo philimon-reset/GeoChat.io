@@ -14,17 +14,12 @@ import { Register, Login } from "../../Login/Entry";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
-    root: {
-      color: "white",
-      "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-        borderColor: "green"
-      },
-      "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-        borderColor: "red"
-      },
-      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "purple"
-      }
+    introText: {
+      margin: "5%",
+      color: "#0b3866",
+      fontSize: "5em",
+      fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+      textAlign: "center",
     },
     paper: {
       width: "100%",
@@ -35,7 +30,7 @@ export const useStyles = makeStyles((theme) =>
     },
     containerL: {
       // float: 'left',
-      background: "#87f1ff",
+      background: "#EFFFFD",
       height: "85%",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
@@ -48,12 +43,11 @@ export const useStyles = makeStyles((theme) =>
     },
     containerR: {
       // float: 'left',
-      backgroundColor: '#2A363B',
-      color: '#fff',
+      backgroundColor: "#EFFFFD",
       height: "60vh",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
-      width: "30vw",
+      width: "30%",
       position: "absolute",
       top: "5%",
       margin: "10rem",
@@ -62,7 +56,7 @@ export const useStyles = makeStyles((theme) =>
     },
     center: {
       margin: "auto",
-      width: "60%", 
+      width: "60%",
       padding: "20px",
     },
     wrapText: {
@@ -73,27 +67,23 @@ export const useStyles = makeStyles((theme) =>
       padding: "1rem",
       width: "100%",
       marginLeft: ".3rem",
-      margin: '1rem',
+      margin: "1rem",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
     },
     wrapBl: {
       color: "#fff",
-      backgroundColor: "#303f9f",
+      backgroundColor: "#3f51b5",
       position: "absolute",
-      left: '20%',
+      left: "20%",
       bottom: "3%",
       padding: ".8rem",
       width: "60%",
       margin: "1rem",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
-<<<<<<< HEAD
-      '&:hover': {
-        color: "#303f9f",
-        backgroundColor: '#fff'
-      }
-=======
-      borderRadius: '15px',
->>>>>>> a3764228b240ae9ad42a8e4b20c5d3f48ad354fd
+      borderRadius: "15px",
+      "&:hover": {
+        backgroundColor: "#303f9f",
+      },
     },
     messagesBody: {
       width: "calc( 100% - 20px )",
@@ -161,8 +151,8 @@ export function BasicTabs(props) {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Login" {...a11yProps(0)} style={{ color: '#fff' }}/>
-          <Tab label="Register" {...a11yProps(1)} style={{ color: '#fff' }}/>
+          <Tab label="Login" {...a11yProps(0)} />
+          <Tab label="Register" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
