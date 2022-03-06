@@ -22,6 +22,7 @@ import {
   Navbar,
   Text,
   useMantineTheme,
+  Avatar,
 } from "@mantine/core";
 
 // socket import
@@ -78,7 +79,6 @@ export default function Home() {
   // appshell tools
   const [opened, setOpened] = useState(false);
   const theme = useMantineTheme();
-
   const [pool, setpool] = useState([]);
 
   // io stuff
@@ -125,7 +125,7 @@ export default function Home() {
             <Provider>
               <AppShell
                 style={{
-                  backgroundColor: "#95D1CC",
+                  backgroundColor: "#314E52",
                   color: "#F6F2D4",
                   fontFamily: "Roboto, Helvetica, Arial, sans-serif",
                 }}
@@ -136,7 +136,7 @@ export default function Home() {
                 navbar={
                   <Navbar
                     style={{
-                      backgroundColor: "#95D1CC"
+                      backgroundColor: "#314E52",
                     }}
                     padding="md"
                     // Breakpoint at which navbar will be hidden if hidden prop is true
@@ -148,14 +148,28 @@ export default function Home() {
                     // viewport size > theme.breakpoints.lg – width is 400px
                     width={{ sm: 300, lg: 400 }}
                   >
-                    <Text>Active Users</Text>
+                    <Text
+                      style={{
+                        fontSize: "1.5em",
+                        fontWeight: "lighter",
+                        textAlign:"center",
+                        paddingBottom: '2px',
+                        borderBottom: "0.5px #F6F2D4 solid"
+                      }}
+                    >
+                      Active Chats
+                    </Text>
                     {pool.map((element, index) => (
                       <UserList key={index} data={element} />
                     ))}
                   </Navbar>
                 }
                 header={
-                  <Header height={70} padding="md" style={{backgroundColor: "#95D1CC"}}>
+                  <Header
+                    height={70}
+                    padding="md"
+                    style={{ backgroundColor: "#314E52" }}
+                  >
                     {/* Handle other responsive styles with MediaQuery component or createStyles function */}
                     <div
                       style={{
@@ -174,7 +188,17 @@ export default function Home() {
                           mr="lg"
                         />
                       </MediaQuery>
-                      <Text>{currentUser.current}</Text>
+                      <Avatar>
+                        {currentUser.current ? currentUser.current[0] : ""}
+                      </Avatar>
+                      <Text
+                        style={{
+                          fontSize: "2em",
+                          fontWeight: "bolder",
+                        }}
+                      >
+                        Welcome {currentUser.current} 👋
+                      </Text>
                       <Logout socket={socket} />
                     </div>
                   </Header>

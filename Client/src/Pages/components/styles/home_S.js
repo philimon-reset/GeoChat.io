@@ -5,13 +5,18 @@ import { lightGreen } from "@material-ui/core/colors";
 const useStyles = makeStyles((theme) =>
   createStyles({
     UserNode: {
+      color: '#F6F2D4',
       display: "flex",
       alignItems: "center",
       justifyContent: "flex-start",
-      margin: "20px",
+      marginTop: "20px",
+      marginLeft: "10px",
       borderRadius: "15px",
       width: "90%",
-      color: "#",
+      '&:hover' : {
+        backgroundColor:'#F6F2D4',
+        color: '#000'
+      }
     },
     notification: {
       borderRadius: "50%",

@@ -19,10 +19,11 @@ const useStyles = makeStyles((theme) =>
     messagesBody: {
       width: "calc( 100% - 20px )",
       margin: 10,
-      height: "calc( 100% - 80px )",
+      padding: 8,
+      height: "calc( 100% - 110px )",
       backgroundColor: "#f3f6fb",
-      fontFamily: "Dongle, sans-serif",
-      fontSize: "1.4em",
+      fontFamily: "Roboto, sans-serif",
+      fontSize: "1em",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
     },
   })

@@ -20,8 +20,11 @@ function Logout(props) {
     }
   };
   return (
-    <Button onClick={handleLeave} variant="contained" color="secondary">
-      Logout
+    <Button onClick={handleLeave} variant="contained" style={{
+      backgroundColor: "#D8E3E7",
+      color: '#000',
+    }}>
+      Logout 🚶
     </Button>
   );
 }

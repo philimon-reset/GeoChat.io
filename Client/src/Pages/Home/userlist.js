@@ -27,13 +27,16 @@ export default function UserList(props) {
     <div>
       <Button
         onClick={handleA}
-        className={classes.UserNode}
-        variant="contained"
         color={
           active.userName === props.data.userName ? "secondary" : "primary"
         }
+        className={classes.UserNode}
+        variant="raised"
+        size="small"
         startIcon={
-          <Avatar alt={props.data.userName} className={classes.purple}></Avatar>
+          <Avatar variant="rounded" alt={props.data.userName} className={classes.purple}>
+            {props.data.userName[0]}
+          </Avatar>
         }
       >
         {props.data.userName}
