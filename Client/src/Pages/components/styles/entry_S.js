@@ -31,12 +31,12 @@ export const useStyles = makeStyles((theme) =>
     },
     containerR: {
       backgroundColor: "#EFFFFD",
-      height: "60%",
+      height: "70%",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
       width: "25%",
       position: "absolute",
-      top: "5%",
+      top: "-7%",
       margin: "10rem",
       zIndex: 0,
       transition: "all 1s",
@@ -85,7 +85,7 @@ export const useStyles = makeStyles((theme) =>
 
 // SVG i don't know where to put
 export const style = {
-  height: "102vh",
+  height: "100vh",
   background: "hsla(148, 89%, 78%, 1)",
   background:
     "linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
