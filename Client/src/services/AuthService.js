@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// check and return login credntitals
 export async function logIn(creds) {
   try {
     const res = await axios.post("http://localhost:8000/login", creds, {
@@ -11,6 +12,7 @@ export async function logIn(creds) {
   }
 }
 
+// logout a user and destroy a session
 export async function logOut() {
   try {
     await axios.get("http://localhost:8000/logout", {
@@ -22,6 +24,7 @@ export async function logOut() {
   }
 }
 
+// check if session exists for user
 export async function checkSesh() {
   try {
     const res = await axios.get("http://localhost:8000/isIn", {

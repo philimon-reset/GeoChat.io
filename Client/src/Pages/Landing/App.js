@@ -5,12 +5,14 @@ import { useState, useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // style imports
-import { BasicTabs, useStyles } from "../components/styles/entry_S";
+import { BasicTabs } from "../components/styles/Tab_Components";
+import { useStyles, style } from "../components/styles/entry_S";
 import { Paper, Grid, Button } from "@material-ui/core";
 
-//file imports
+//file imports for auth services
 import { checkSesh } from "../../services/AuthService";
 
+// reducer to check auth state
 const reducer = (state, action) => {
   switch (action) {
     case "SUCCESS":
@@ -30,20 +32,7 @@ const reducer = (state, action) => {
   }
 };
 
-// SVG i don't know where to put
-const style = {
-  height: "102vh",
-  background: "hsla(148, 89%, 78%, 1)",
-  background:
-    "linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
-  background:
-    "-moz-linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
-  background:
-    "-webkit-linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
-  filter:
-    'progid: DXImageTransform.Microsoft.gradient( startColorstr="#95F9C3", endColorstr="#0B3866", GradientType=1 )',
-};
-
+// landing page
 function App() {
   const navigate = useNavigate();
 
@@ -71,7 +60,7 @@ function App() {
 
   const handleFlip = () => {
     if (flip.transform === `translateX(0%)`) {
-      styles.transform = `translateX(55vw)`;
+      styles.transform = `translateX(58vw)`;
       setflip(styles);
     } else {
       styles.transform = `translateX(0%)`;
@@ -80,7 +69,6 @@ function App() {
   };
 
   return (
-    // style={{position: 'relative', background: '#3e7cb1'}} for the grid container
     <>
       {state.loading ? (
         <p>loading.....</p>

@@ -1,5 +1,7 @@
+// external imports
 import React, { useState, createContext } from "react";
 
+// context manager for global states
 export const Context = createContext();
 
 export const Provider = ({ children }) => {

@@ -5,11 +5,12 @@ import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import useStyles from "./styles/message_S";
 
+// component to display users popup
 export const MessageLeft = (props) => {
   const message = props.message ? props.message : "no message";
   const timestamp = props.timestamp ? props.timestamp : "";
   const photoURL = props.photoURL ? props.photoURL : "";
-  const displayName = props.displayName ? props.displayName : "Player 1";
+  const displayName = props.displayName ? props.displayName : "No User";
   const classes = useStyles();
   return (
     <>
@@ -32,6 +33,8 @@ export const MessageLeft = (props) => {
     </>
   );
 };
+
+// component used to display other users popup, i couldnt find the right word for it
 export const MessageRight = (props) => {
   const classes = useStyles();
   const displayName = props.displayName ? props.displayName : "Player 1";

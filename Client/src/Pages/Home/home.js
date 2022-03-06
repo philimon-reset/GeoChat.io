@@ -1,13 +1,16 @@
 // external dependency imports
 import { React, useState, useEffect, useReducer, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import date from "date-and-time";
+import { useNavigate } from "react-router-dom";
 
-// File Imports
+// app shell components
 import Dashboard from "../components/Dashboard";
 import Logout from "../components/Logout";
 import UserList from "./userlist";
+
+// auth services
 import { checkSesh } from "../../services/AuthService";
+
+// global state manager
 import { Provider } from "../components/State_Managment/IsActive";
 
 // style imports
@@ -24,6 +27,7 @@ import {
 // socket import
 import socket from "../../services/socket";
 
+// reducer to check auth state
 const reducer = (status, action) => {
   switch (action) {
     case "SUCCESS":
@@ -43,7 +47,8 @@ const reducer = (status, action) => {
   }
 };
 
-export default function Home(props) {
+// Home page
+export default function Home() {
   const navigate = useNavigate();
   const currentUser = useRef(null);
 
@@ -54,6 +59,7 @@ export default function Home(props) {
     loading: true,
   });
 
+  // connect to users socket and procees with auth handling
   useEffect(() => {
     socket.connect();
     checkSesh().then((res) => {
@@ -84,6 +90,7 @@ export default function Home(props) {
     setpool(pool.concat(NewUser));
   });
 
+  // function to update notification signs for new messages
   const PrivateMsgForward = (message) => {
     setpool(
       pool.map((x) => {
@@ -95,7 +102,7 @@ export default function Home(props) {
     );
   };
 
-  // temporary hooooooot fix
+  // temporary hooooooot fix !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   socket.on("ChannelUpdate", ({ userName, newChannel }) => {
     for (let user in pool) {
       if (user.userName === userName) {

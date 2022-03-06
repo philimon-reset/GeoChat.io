@@ -11,14 +11,18 @@ import { useStyles } from "../components/styles/entry_S";
 import { logIn } from "../../services/AuthService";
 import { register } from "../../services/UserService";
 
+// Register Component
 export function Register() {
   let navigate = useNavigate();
+
+  // state bar for user information
   const [usrName, setUserName] = useState();
   const [pass, setPassword] = useState();
   const [email, setEmail] = useState();
   const [loginU, setLoginU] = useState(false);
   const [loginE, setLoginE] = useState(false);
 
+  // Error handling for Register
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await register({
@@ -43,6 +47,7 @@ export function Register() {
   return (
     <div id="container">
       <form target="_self" class={classes.center}>
+        {/* State exchanged to switch between error and passing components */}
         {loginU ? (
           <Textfield
             className={classes.wrapText}
@@ -118,10 +123,13 @@ export function Register() {
 
 export function Login() {
   let navigate = useNavigate();
+
+// state bar for user information
   const [usrName, setUserName] = useState();
   const [pass, setPassword] = useState();
   const [loginE, setLoginE] = useState(false);
 
+  // Error handling for Login
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await logIn({
@@ -139,6 +147,7 @@ export function Login() {
   return (
     <div id="container">
       <form target="_self" class={classes.center}>
+        {/* State exchanged to switch between error and passing components */}
         {loginE ? (
           <Textfield
             className={classes.wrapText}
@@ -177,7 +186,7 @@ export function Login() {
           />
         ) : (
           <Textfield
-            // className={classes.wrapText}
+            className={classes.wrapText}
             type="password"
             label="Password"
             id="pass"

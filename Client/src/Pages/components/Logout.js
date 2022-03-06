@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 // style imports
 import { Button } from "@material-ui/core";
 
-// file imports
+// Auth import
 import { logOut } from "../../services/AuthService";
 
+// component used for logging out a user
 function Logout(props) {
   const navigate = useNavigate();
 

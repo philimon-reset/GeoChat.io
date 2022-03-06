@@ -1,16 +1,5 @@
-//external imports
-import * as React from "react";
-
-// Style imports
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+// style imports
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-
-// file
-import { Register, Login } from "../../Login/Entry";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
@@ -29,7 +18,6 @@ export const useStyles = makeStyles((theme) =>
       position: "relative",
     },
     containerL: {
-      // float: 'left',
       background: "#EFFFFD",
       height: "85%",
       borderRadius: "15px",
@@ -42,12 +30,11 @@ export const useStyles = makeStyles((theme) =>
       color: "#582B11",
     },
     containerR: {
-      // float: 'left',
       backgroundColor: "#EFFFFD",
-      height: "60vh",
+      height: "60%",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
-      width: "30%",
+      width: "25%",
       position: "absolute",
       top: "5%",
       margin: "10rem",
@@ -96,71 +83,16 @@ export const useStyles = makeStyles((theme) =>
   })
 );
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 7 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+// SVG i don't know where to put
+export const style = {
+  height: "102vh",
+  background: "hsla(148, 89%, 78%, 1)",
+  background:
+    "linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
+  background:
+    "-moz-linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
+  background:
+    "-webkit-linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
+  filter:
+    'progid: DXImageTransform.Microsoft.gradient( startColorstr="#95F9C3", endColorstr="#0B3866", GradientType=1 )',
 };
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-export function BasicTabs(props) {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return (
-    <Box sx={{ width: "100%", margin: "2rem auto", position: "absolute" }}>
-      <Box
-        sx={{
-          borderBottom: 2,
-          borderColor: "divider",
-          display: "flex",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Login" {...a11yProps(0)} />
-          <Tab label="Register" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <Login />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Register />
-      </TabPanel>
-    </Box>
-  );
-}

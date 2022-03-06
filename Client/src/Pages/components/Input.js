@@ -7,9 +7,11 @@ import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
 import useStyles from "./styles/input_S";
 
+// component incharge of handling user input
 export const TextInput = (props) => {
   const [textValue, setTextValue] = useState("");
 
+  // on submit pass written value up the component
   const onSubmit = (event) => {
     event.preventDefault();
     const value = textValue;
@@ -35,7 +37,7 @@ export const TextInput = (props) => {
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={() => props.onClick(textValue)}
+          onClick={onSubmit}
         >
           <SendIcon />
         </Button>
