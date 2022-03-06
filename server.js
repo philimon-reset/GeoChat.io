@@ -23,7 +23,16 @@ const PORT = env.chatAppPort || 8000;
 
 // Express APP
 const app = express();
-app.use(router);
+app.use(express.static('client/build/'));
+// app.use(router);
+
+
+app.use('/api', router);
+
+app.get('*', (req, res, next) => {
+  res.sendFile(__dirname + '/client/build/index.html');
+})
+
 
 // http server
 const httpServer = HttpServer(app);

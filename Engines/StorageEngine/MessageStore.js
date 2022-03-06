@@ -14,7 +14,6 @@ export class MessageStore extends BasicStore {
     const to = (await usrStorage.findUniqUser({ _id: reciever })).userName;
     message.sender = from;
 
-    console.log(from, to);
     const chat = await this.msgCollection.findOne({
       $or: [{ chatName: `${from}|${to}` }, { chatName: `${to}|${from}` }],
     });

@@ -78,24 +78,22 @@ function App() {
             navigate("home")
           ) : (
             <div style={{ ...style }}>
-              <Grid container>
-                <Grid className={classes.containerL}>
-                  <div className={classes.introText}>
-                    lorem ipsum lorem ipsum lorem ipsum lorem lorem ipsum
-                  </div>
-                  <Button
-                    variant="contained"
-                    className={classes.wrapBl}
-                    onClick={handleFlip}
-                  >
-                    Get Started
-                  </Button>
-                </Grid>
-                <Grid className={classes.containerR} style={{ ...flip }}>
-                  <Paper>
-                    <BasicTabs />
-                  </Paper>
-                </Grid>
+              <Grid className={classes.containerL}>
+                <div className={classes.introText}>
+                  lorem ipsum lorem ipsum lorem ipsum lorem lorem ipsum
+                </div>
+                <Button
+                  variant="contained"
+                  className={classes.wrapBl}
+                  onClick={handleFlip}
+                >
+                  Get Started
+                </Button>
+              </Grid>
+              <Grid className={classes.containerR} style={{ ...flip }}>
+                <Paper>
+                  <BasicTabs />
+                </Paper>
               </Grid>
             </div>
           )}

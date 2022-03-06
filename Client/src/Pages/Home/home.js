@@ -83,6 +83,7 @@ export default function Home() {
 
   // io stuff
   socket.on("UsersList", (data) => {
+
     setpool(data);
   });
 

@@ -31,7 +31,6 @@ export default function UserList(props) {
           active.userName === props.data.userName ? "secondary" : "primary"
         }
         className={classes.UserNode}
-        variant="raised"
         size="small"
         startIcon={
           <Avatar variant="rounded" alt={props.data.userName} className={classes.purple}>

@@ -18,6 +18,8 @@ export default function Dashboard(props) {
   const { active } = useContext(Context);
   const messagesEndRef = useRef(null);
   const { currentUser, Forward } = props;
+
+  // fetchmessages
   const fetchMessages = async () => {
     const res = await getMessages(active.userName, currentUser);
     setoutput(res.data.messages);
@@ -25,7 +27,6 @@ export default function Dashboard(props) {
 
   // io stuff
   socket.on("PrivateMsgForward", (message) => {
-    console.log(message.sender, currentUser);
     if (active?.userName === message.sender) {
       fetchMessages();
     } else if (message.sender === currentUser) {
@@ -51,6 +52,10 @@ export default function Dashboard(props) {
 
     socket.emit("PrivateMsgSent", compiledMsg);
     console.log("sending", compiledMsg);
+
+    if (output) {
+      setoutput([...output, compiledMsg])
+    }
   }
 
   useEffect(scrollToBottom, [output]);

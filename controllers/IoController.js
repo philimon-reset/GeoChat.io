@@ -33,7 +33,6 @@ export default class IoController {
       const reciever = await SocketStore.get(room);
 
       // Save Message to DB
-      console.log(sender);
       await SocketController.onMessage(sender, reciever, {
         message,
         timestamp,
@@ -51,15 +50,10 @@ export default class IoController {
         .to(sender_s)
         .to(reciever)
         .emit("PrivateMsgForward", ForwardMessage);
+      // hot fix
+      socket.to(sender_s).emit("UsersList", users);
     });
 
-    // testing purposes
-    socket.on("pubMsg", async (data) => {
-      console.log(data);
-      const { message, timestamp } = data;
-      const sender = await SocketStore.get(socket.id);
-      SocketController.onMessage(sender, sender, { message, timestamp });
-    });
 
     // Disconnection Handler
     socket.on("disconnect", async (reason) => {

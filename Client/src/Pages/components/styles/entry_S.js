@@ -31,7 +31,7 @@ export const useStyles = makeStyles((theme) =>
     },
     containerR: {
       backgroundColor: "#EFFFFD",
-      height: "70%",
+      height: "28rem",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
       width: "25%",

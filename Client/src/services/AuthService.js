@@ -3,7 +3,7 @@ import axios from "axios";
 // check and return login credntitals
 export async function logIn(creds) {
   try {
-    const res = await axios.post("http://localhost:8000/login", creds, {
+    const res = await axios.post("http://localhost:8000/api/login", creds, {
       withCredentials: true,
     });
     return res;
@@ -15,7 +15,7 @@ export async function logIn(creds) {
 // logout a user and destroy a session
 export async function logOut() {
   try {
-    await axios.get("http://localhost:8000/logout", {
+    await axios.get("http://localhost:8000/api/logout", {
       withCredentials: true,
     });
     return true;
@@ -27,7 +27,7 @@ export async function logOut() {
 // check if session exists for user
 export async function checkSesh() {
   try {
-    const res = await axios.get("http://localhost:8000/isIn", {
+    const res = await axios.get("http://localhost:8000/api/isIn", {
       withCredentials: true,
     });
     return res;
