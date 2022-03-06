@@ -124,12 +124,20 @@ export default function Home() {
           {status.hasSesh ? (
             <Provider>
               <AppShell
+                style={{
+                  backgroundColor: "#95D1CC",
+                  color: "#F6F2D4",
+                  fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+                }}
                 // navbarOffsetBreakpoint controls when navbar should no longer be offset with padding-left
                 navbarOffsetBreakpoint="sm"
                 // fixed prop on AppShell will be automatically added to Header and Navbar
                 fixed
                 navbar={
                   <Navbar
+                    style={{
+                      backgroundColor: "#95D1CC"
+                    }}
                     padding="md"
                     // Breakpoint at which navbar will be hidden if hidden prop is true
                     hiddenBreakpoint="sm"
@@ -147,7 +155,7 @@ export default function Home() {
                   </Navbar>
                 }
                 header={
-                  <Header height={70} padding="md">
+                  <Header height={70} padding="md" style={{backgroundColor: "#95D1CC"}}>
                     {/* Handle other responsive styles with MediaQuery component or createStyles function */}
                     <div
                       style={{
