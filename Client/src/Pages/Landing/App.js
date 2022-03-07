@@ -80,7 +80,9 @@ function App() {
             <div style={{ ...style }}>
               <Grid className={classes.containerL}>
                 <div className={classes.introText}>
-                  lorem ipsum lorem ipsum lorem ipsum lorem lorem ipsum
+                  <h1 style={{background: '#5D8BF4', borderRadius: '15px', color: 'white'}}>GeoChat</h1>
+                  <h6 style={{borderLeft: '5px solid', color: '#203239'}}>GeoChat is an instant messaging app with a location feature.<br/>
+                  Real-time conversations new and exciting people around your vicinity.</h6>
                 </div>
                 <Button
                   variant="contained"

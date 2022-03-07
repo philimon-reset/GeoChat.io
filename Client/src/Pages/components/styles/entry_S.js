@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme) =>
       position: "relative",
     },
     containerL: {
-      background: "#EFFFFD",
+      background: "#DFF6FF",
       height: "85%",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
@@ -27,10 +27,9 @@ export const useStyles = makeStyles((theme) =>
       top: "6%",
       zIndex: 10,
       margin: "1.5rem",
-      color: "#582B11",
     },
     containerR: {
-      backgroundColor: "#EFFFFD",
+      backgroundColor: "#DFF6FF",
       height: "28rem",
       borderRadius: "15px",
       boxShadow: "0 3px 5px 2px rgba(33, 19, 13, .3)",
@@ -86,13 +85,8 @@ export const useStyles = makeStyles((theme) =>
 // SVG i don't know where to put
 export const style = {
   height: "100vh",
-  background: "hsla(148, 89%, 78%, 1)",
   background:
-    "linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
-  background:
-    "-moz-linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
-  background:
-    "-webkit-linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%)",
+    "linear-gradient(90deg, rgb(93, 139, 244) 0%, rgb(5, 19, 103) 100%)",
   filter:
     'progid: DXImageTransform.Microsoft.gradient( startColorstr="#95F9C3", endColorstr="#0B3866", GradientType=1 )',
 };

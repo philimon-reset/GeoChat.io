@@ -25,23 +25,30 @@ export function Register() {
   // Error handling for Register
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await register({
-      usrName,
-      email,
-      pass,
-    });
-    if (res.data.usrName) {
-      navigate("/home", { state: res }, { replace: false });
-    } else if (res.ErrorCode === "USERNAME") {
-      setLoginU("UserName Taken");
-      setLoginE(false);
-    } else if (res.ErrorCode === "EMAIL") {
-      setLoginE("Email Taken");
-      setLoginU(false);
-    } else {
-      window.location.reload();
+    if (usrName && email && pass && 1) {
+      const res = await register({
+        usrName,
+        email,
+        pass,
+      });
+      if (res.ErrorCode === undefined) {
+        navigate("/home", { state: res }, { replace: false });
+      } else if (res.ErrorCode === "USERNAME") {
+        setLoginU("UserName Taken");
+        setLoginE(false);
+      } else if (res.ErrorCode === "EMAIL") {
+        setLoginE("Email Taken");
+        setLoginU(false);
+      } else {
+        window.location.reload();
+      }
     }
-  };
+  else {
+    console.log('here');
+      setLoginU('Error');
+      setLoginE('Error');
+  }
+};
 
   const classes = useStyles();
   return (
@@ -132,14 +139,19 @@ export function Login() {
   // Error handling for Login
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await logIn({
-      usrName,
-      pass,
-    });
-    if (res) {
-      navigate("/home", { state: res }, { replace: false });
-    } else {
-      setLoginE(true);
+    if (usrName && pass && 1) {
+      const res = await logIn({
+        usrName,
+        pass,
+      });
+      if (res) {
+        navigate("/home", { state: res }, { replace: false });
+      } else {
+        setLoginE(true);
+      }
+    }
+    else {
+      setLoginE(true)
     }
   };
 

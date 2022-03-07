@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) =>
       width: "calc( 100% - 20px )",
       margin: 10,
       padding: 8,
-      height: "calc( 100% - 110px )",
+      height: "calc( 100% - 120px )",
       backgroundColor: "#f3f6fb",
       fontFamily: "Roboto, sans-serif",
       fontSize: "1em",
