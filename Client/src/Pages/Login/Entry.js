@@ -44,7 +44,6 @@ export function Register() {
       }
     }
   else {
-    console.log('here');
       setLoginU('Error');
       setLoginE('Error');
   }

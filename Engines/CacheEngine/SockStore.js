@@ -25,7 +25,8 @@ const SocketStore = {
     const raw = await this.getAll();
     for (let k in raw) {
       if (raw[k] == key) {
-        await this.del(key);
+        await this.del(k);
+        await this.decrCount(key);
       }
     }
   },

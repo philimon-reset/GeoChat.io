@@ -51,7 +51,6 @@ export default function Dashboard(props) {
     };
 
     socket.emit("PrivateMsgSent", compiledMsg);
-    console.log("sending", compiledMsg);
 
     if (output) {
       setoutput([...output, compiledMsg])

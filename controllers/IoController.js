@@ -45,7 +45,6 @@ export default class IoController {
       const ForwardMessage = { sender, message, timestamp };
 
       // Send message to reciever
-      console.log("ForwardMessage", ForwardMessage);
       socket
         .to(sender_s)
         .to(reciever)
@@ -65,7 +64,6 @@ export default class IoController {
 
       if (reason === "client namespace disconnect") {
         await SocketController.onDisconnect(usrId);
-        console.log('disconnected')
         socket.broadcast.emit("UserDisconnect", {
           userName,
         });
